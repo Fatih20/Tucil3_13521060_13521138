@@ -1,3 +1,21 @@
+interface GraphSearching {
+    /**
+     * Graph searching for start-end path with UCS Algorithm
+     * @param startNode starting node
+     * @param destNode destination node
+     * @returns List of nodes showing path from starting node to destination node
+     */
+    UCS(startNode: MapNode, destNode: MapNode): MapNode[];
+
+    /**
+     * Graph searching for start-end path with A* Algorithm
+     * @param startNode starting node
+     * @param destNode destination node
+     * @returns List of nodes showing path from starting node to destination node
+     */
+    AStar(startNode: MapNode, destNode: MapNode): MapNode[];
+}
+
 class AdjacencyList {
     private list: [node: MapNode, neighbors: AdjacentNode[]][];
 
