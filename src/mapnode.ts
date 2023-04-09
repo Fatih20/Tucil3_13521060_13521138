@@ -1,3 +1,63 @@
+/**
+ * Uses Decimal Degrees (DD) format; latitude followed by longitude
+ */
+class Coordinate {
+    _latitude: number
+    _longitude: number
+
+    constructor(latitude: number, longitude: number) {
+        this._latitude = latitude;
+        this._longitude = longitude;
+    }
+
+    get latitude(): number {
+        return this._latitude;
+    }
+
+    get longitude(): number {
+        return this._longitude;
+    }
+
+    get coordinate(): [number, number] {
+        return [this._latitude, this._longitude];
+    }
+
+    public isEqual(other: Coordinate): boolean {
+        return (this._latitude == other._latitude) && (this._longitude == other._longitude);
+    }
+
+    /**
+     * Calculates the distance between to geographical coordinates using 'haversine' formula,
+     * returns distance in meters.
+     * 
+     * In practice, calculates the shortest distance over the earth’s surface
+     * 
+     * reference: http://www.movable-type.co.uk/scripts/latlong.html
+     * @param other 
+     */
+    public distanceTo(other: Coordinate): number {
+        let lat1 = this._latitude;
+        let lat2 = other._latitude;
+        let lon1 = this._longitude;
+        let lon2 = other._longitude;
+
+        const R = 6371e3; // earth's radius, in metres
+        const φ1 = lat1 * Math.PI/180; // φ, λ in radians
+        const φ2 = lat2 * Math.PI/180;
+        const Δφ = (lat2-lat1) * Math.PI/180;
+        const Δλ = (lon2-lon1) * Math.PI/180;
+
+        const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                Math.sin(Δλ/2) * Math.sin(Δλ/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        const d = R * c; // distance, in metres
+
+        return d;
+    }
+}
+
 class MapNode {
     private _name: string;
     private _coordinate: number;
