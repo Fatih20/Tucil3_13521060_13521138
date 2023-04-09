@@ -60,36 +60,40 @@ class Coordinate {
 
 class MapNode {
     private _name: string;
-    private _coordinate: number;
+    private readonly _coordinate: Coordinate;
 
-    constructor(name: string, coordinate: number = NaN) {
+    constructor(name: string, lat: number, lon: number) {
         this._name = name;
-        this._coordinate = coordinate;
+        this._coordinate = new Coordinate(lat, lon);
     }
 
     get name(): string {
         return this._name;
     }
 
-    get coordinate(): number {
-        return this._coordinate;
+    get coordinate(): readonly [number, number] {
+        return this._coordinate.coordinate;
     }
 
-    get clone(): MapNode {
-        let cloned = new MapNode(this._name, this._coordinate);
+    public clone(): MapNode {
+        let cloned = new MapNode(this._name, this._coordinate.latitude, this._coordinate.longitude);
         return cloned;
     }
 
+    public isSame(other: MapNode): boolean {
+        return (this._name == other._name) && (this._coordinate.isEqual(other._coordinate));
+    }
+
     static clone(mapNode: MapNode): MapNode {
-        return mapNode.clone;
+        return mapNode.clone();
     }
 }
 
 class AdjacentNode extends MapNode {
     private _weight: number;
 
-    constructor(name: string, coordinate: number = NaN, weight: number) {
-        super(name, coordinate);
+    constructor(name: string, lat: number, lon: number, weight: number) {
+        super(name, lat, lon);
         this._weight = weight;
     }
 
@@ -102,8 +106,8 @@ class TreeNode extends MapNode {
     private _totalWeight: number;
     private _parent: TreeNode | null;
     
-    constructor(name: string, coordinate: number = NaN, totalWeight: number = 0, parent: TreeNode | null = null) {
-        super(name, coordinate);
+    constructor(name: string, lat: number, lon: number, totalWeight: number = 0, parent: TreeNode | null = null) {
+        super(name, lat, lon);
         this._totalWeight = totalWeight;
         this._parent = parent;
     }
