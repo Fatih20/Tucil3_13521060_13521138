@@ -40,12 +40,12 @@ class AdjacentNode extends MapNode {
 
 class TreeNode extends MapNode {
     private _totalWeight: number;
-    private _child: TreeNode[];
+    private _parent: TreeNode | null;
     
-    constructor(name: string, coordinate: number = NaN, totalWeight: number = 0) {
+    constructor(name: string, coordinate: number = NaN, totalWeight: number = 0, parent: TreeNode | null = null) {
         super(name, coordinate);
         this._totalWeight = totalWeight;
-        this._child = new Array<TreeNode>;
+        this._parent = parent;
     }
 
     get totalWeight(): number {
@@ -57,7 +57,7 @@ class TreeNode extends MapNode {
         this._totalWeight = totalWeight;
     }
 
-    public addChild(childNode: TreeNode) {
-        this._child.push(childNode);
+    get parent(): TreeNode | null {
+        return this._parent;
     }
 }
