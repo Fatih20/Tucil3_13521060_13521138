@@ -1,3 +1,12 @@
+import { PriorityQueue } from '@datastructures-js/priority-queue';
+import {
+    Coordinate,
+    MapNode,
+    AdjacentNode,
+    TreeNode,
+    compareTreeNode
+} from "./mapnode"
+
 interface GraphSearching {
     /**
      * Graph searching for start-end path with UCS Algorithm
@@ -5,7 +14,7 @@ interface GraphSearching {
      * @param destNode destination node
      * @returns List of nodes showing path from starting node to destination node
      */
-    UCS(startNode: MapNode, destNode: MapNode): MapNode[];
+    UCS(startNode: number, destNode: number): MapNode[];
 
     /**
      * Graph searching for start-end path with A* Algorithm
@@ -13,10 +22,10 @@ interface GraphSearching {
      * @param destNode destination node
      * @returns List of nodes showing path from starting node to destination node
      */
-    AStar(startNode: MapNode, destNode: MapNode): MapNode[];
+    AStar(startNode: number, destNode: number): MapNode[];
 }
 
-class AdjacencyList {
+class AdjacencyList implements GraphSearching {
     private list: [node: MapNode, neighbors: AdjacentNode[]][];
 
     constructor() {
@@ -55,6 +64,42 @@ class AdjacencyList {
      * @param newNode the new node to be added into the adjacency list
      */
     public addNode(newNode: MapNode) {
-        this.list.push([newNode.clone, new Array<AdjacentNode>]);
+        this.list.push([newNode.clone(), new Array<AdjacentNode>]);
+    }
+
+    UCS(startNode: number, destNode: number): MapNode[] {
+        const searchTree: TreeNode = new TreeNode(startNode); // create search tree root
+        var queue: PriorityQueue<TreeNode> = new PriorityQueue<TreeNode>(compareTreeNode, [searchTree]); // initialize search queue, start with root
+        
+        var isVisited: boolean[] = new Array<boolean>(this.list.length);
+        isVisited.map(() => false); // initialize values with false (not visited)
+
+        let currentNode: TreeNode;
+        do {
+            currentNode = queue.dequeue();
+
+            if(!isVisited[currentNode.index]) {
+                isVisited[currentNode.index] = true;
+                (this.list[currentNode.index][1]).forEach(neighbor => {
+                    let nextNode: TreeNode = new TreeNode(neighbor.index, (currentNode.totalWeight + neighbor.weight), currentNode);
+                    queue.enqueue(nextNode);
+                });
+            }
+        } while (!queue.isEmpty && currentNode.index != destNode);
+
+        if(currentNode.index == destNode) {
+            let path = new Array<MapNode>();
+            do {
+                path.push(this.list[currentNode.index][0]);
+            } while(!currentNode.isRoot);
+            return path;
+        }
+        else {
+            throw "No path found :(";
+        }
+    }
+
+    AStar(startNode: number, destNode: number): MapNode[] {
+        
     }
 }
