@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Route } from "../types";
 
-export function useRoute(initialValues: Route[]) {
+export default function useRoute(initialValues: Route[]) {
   const [routes, setRoutes] = useState(initialValues);
 
   function addRoute(source: number, destination: number, weight: number) {
@@ -29,6 +29,7 @@ export function useRoute(initialValues: Route[]) {
   }
 
   return {
+    routes,
     addRoute,
     addRoutes,
     resetRoutes,

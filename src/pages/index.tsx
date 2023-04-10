@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import { useLocationMarker } from "@/customHook/useLocationMarker";
-import { Map, Marker, ZoomControl } from "pigeon-maps";
+import { Map, Marker, ZoomControl, GeoJson } from "pigeon-maps";
 import useWindowDimensions from "@/customHook/useWindowDimension";
 import Button from "@/components/Button";
+import useRoute from "@/customHook/useRoute";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,12 +12,16 @@ export default function Home() {
   const {
     locationMarkers,
     addLocationMarker,
-    addLocationMarkers,
     removeLocationMarker,
     getMarkerAt,
     isMarkerInHere,
     resetMarker,
   } = useLocationMarker([]);
+
+  const { routes, addRoute, removeRouteWithNodeIndex, resetRoutes } = useRoute(
+    []
+  );
+
   const { width, height } = useWindowDimensions();
 
   return (
@@ -24,7 +29,10 @@ export default function Home() {
       <main className="flex h-screen flex-col items-center justify-between w-screen relative">
         <div className="absolute inset-0 w-full h-full flex flex-col items-start justify-end z-10 pointer-events-none box-border p-2">
           <div className="flex flex-row items-center justify-start">
-            <Button onClick={resetMarker}>Reset Marker</Button>
+            <div className="flex flex-col items-center justify-center gap-4">
+              <Button onClick={resetMarker}>Reset Marker</Button>
+              <Button onClick={resetRoutes}>Reset Routes</Button>
+            </div>
           </div>
         </div>
 
@@ -40,6 +48,23 @@ export default function Home() {
             addLocationMarker(latLng);
           }}
         >
+          <GeoJson
+            data={{
+              type: "FeatureCollection",
+              features: routes.map((route) => {
+                return {
+                  type: "Feature",
+                  geometry: {
+                    type: "LineString",
+                    coordinates: [
+                      getMarkerAt(route.source),
+                      getMarkerAt(route.destination),
+                    ],
+                  },
+                };
+              }),
+            }}
+          />
           {locationMarkers.map((latlng, index) => {
             return (
               <Marker
