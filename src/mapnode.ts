@@ -1,7 +1,9 @@
+import { ICompare } from '@datastructures-js/priority-queue';
+
 /**
  * Uses Decimal Degrees (DD) format; latitude followed by longitude
  */
-class Coordinate {
+export class Coordinate {
     _latitude: number
     _longitude: number
 
@@ -41,11 +43,13 @@ class Coordinate {
         let lon1 = this._longitude;
         let lon2 = other._longitude;
 
+        const DegtoRad = Math.PI/180;
+
         const R = 6371e3; // earth's radius, in metres
-        const φ1 = lat1 * Math.PI/180; // φ, λ in radians
-        const φ2 = lat2 * Math.PI/180;
-        const Δφ = (lat2-lat1) * Math.PI/180;
-        const Δλ = (lon2-lon1) * Math.PI/180;
+        const φ1 = lat1 * DegtoRad; // φ, λ in radians
+        const φ2 = lat2 * DegtoRad;
+        const Δφ = (lat2-lat1) * DegtoRad;
+        const Δλ = (lon2-lon1) * DegtoRad;
 
         const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
                 Math.cos(φ1) * Math.cos(φ2) *
@@ -58,7 +62,7 @@ class Coordinate {
     }
 }
 
-class MapNode {
+export class MapNode {
     private _name: string;
     private readonly _coordinate: Coordinate;
 
@@ -89,12 +93,17 @@ class MapNode {
     }
 }
 
-class AdjacentNode extends MapNode {
+export class AdjacentNode {
+    private _index: number;
     private _weight: number;
 
-    constructor(name: string, lat: number, lon: number, weight: number) {
-        super(name, lat, lon);
+    constructor(index: number, weight: number) {
+        this._index = index;
         this._weight = weight;
+    }
+
+    get index(): number {
+        return this._index;
     }
 
     get weight(): number {
@@ -102,12 +111,13 @@ class AdjacentNode extends MapNode {
     }
 }
 
-class TreeNode extends MapNode {
+export class TreeNode {
+    private _index: number;
     private _totalWeight: number;
     private _parent: TreeNode | null;
     
-    constructor(name: string, lat: number, lon: number, totalWeight: number = 0, parent: TreeNode | null = null) {
-        super(name, lat, lon);
+    constructor(index: number, totalWeight: number = 0, parent: TreeNode | null = null) {
+        this._index = index;
         this._totalWeight = totalWeight;
         this._parent = parent;
     }
@@ -121,7 +131,25 @@ class TreeNode extends MapNode {
         this._totalWeight = totalWeight;
     }
 
+    get index(): number {
+        return this._index;
+    }
+
     get parent(): TreeNode | null {
         return this._parent;
     }
+
+    public isRoot(): boolean {
+        return (this._parent == null);
+    }
+}
+
+export const compareTreeNode: ICompare<TreeNode> = (a: TreeNode, b: TreeNode) => {
+    // if(a.totalWeight < b.totalWeight) {
+    //     return 1;
+    // }
+    // if(a.totalWeight > b.totalWeight) {
+    //     return -1;
+    // }
+    return a.totalWeight < b.totalWeight ? 1 : -1;
 }
