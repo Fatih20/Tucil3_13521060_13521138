@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LatLng } from "./types";
+import { LatLng } from "../types";
 
 export function useLocationMarker(initialValues: LatLng[]) {
   const [locationMarkers, setLocationMarkers] = useState(initialValues);

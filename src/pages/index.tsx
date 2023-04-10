@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import { useLocationMarker } from "@/markerHook";
+import { useLocationMarker } from "@/customHook/useLocationMarker";
 import { Map, Marker, ZoomControl } from "pigeon-maps";
+import useWindowSize from "@rooks/use-window-size";
+import useWindowDimensions from "@/customHook/useWindowDimension";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,22 +17,19 @@ export default function Home() {
     isMarkerInHere,
     resetMarker,
   } = useLocationMarker([]);
-
-  // const screenWidth = window.innerWidth;
-  // const screenHeight = window.innerHeight;
-
-  const screenWidth = 500;
-  const screenHeight = 500;
+  const { width, height } = useWindowDimensions();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between w-full relative">
-      <div className="absolute inset-0 w-full">
-        <button onClick={resetMarker}>Reset Marker</button>
+      <div className="absolute inset-0 w-full flex flex-col items-end justify-center z-10 pointer-events-none">
+        <button onClick={resetMarker} className="pointer-events-auto">
+          Reset Marker
+        </button>
       </div>
 
       <Map
-        width={screenWidth}
-        height={screenHeight}
+        width={width ?? 500}
+        height={height ?? 500}
         defaultCenter={[-6.922, 107.609]}
         defaultZoom={13}
         onClick={({ latLng, event, pixel }) => {
@@ -41,9 +40,6 @@ export default function Home() {
           addLocationMarker(latLng);
         }}
       >
-        <Marker anchor={[-6.922, 107.609]} color={`hsl(360deg 39% 70%)`}>
-          <div className="w-4 h-4 bg-black rounded-sm"></div>
-        </Marker>
         {locationMarkers.map((latlng) => {
           console.log(latlng);
           return (
@@ -54,7 +50,12 @@ export default function Home() {
               anchor={latlng}
               color={`hsl(360deg 39% 70%)`}
             >
-              <div className="w-4 h-4 bg-black rounded-sm"></div>
+              <Image
+                src={"/locationIcon.svg"}
+                width={16}
+                height={16}
+                alt={"Location Marker"}
+              />
             </Marker>
           );
         })}
