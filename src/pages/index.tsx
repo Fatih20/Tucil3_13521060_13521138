@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import { useLocationMarker } from "@/customHook/useLocationMarker";
 import { Map, Marker, ZoomControl } from "pigeon-maps";
 import useWindowDimensions from "@/customHook/useWindowDimension";
-import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,22 +36,26 @@ export default function Home() {
             addLocationMarker(latLng);
           }}
         >
-          {locationMarkers.map((latlng) => {
-            console.log(latlng);
+          {locationMarkers.map((latlng, index) => {
             return (
               <Marker
-                width={16}
-                height={16}
+                width={30}
+                height={30}
                 key={latlng.toString()}
                 anchor={latlng}
                 color={`hsl(360deg 39% 70%)`}
               >
-                <Image
-                  src={"/locationIcon.svg"}
-                  width={16}
-                  height={16}
-                  alt={"Location Marker"}
-                />
+                <div className="relative">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <p className="text-white">{index + 1}</p>
+                  </div>
+                  <Image
+                    src={"/locationIcon.svg"}
+                    width={30}
+                    height={30}
+                    alt={"Location Marker"}
+                  />
+                </div>
               </Marker>
             );
           })}
