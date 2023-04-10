@@ -5,7 +5,6 @@ export function useLocationMarker(initialValues: LatLng[]) {
   const [locationMarkers, setLocationMarkers] = useState(initialValues);
 
   function addLocationMarker(addedMarker: LatLng) {
-    console.log("Marker to add", addedMarker);
     setLocationMarkers([...locationMarkers, addedMarker]);
   }
 
