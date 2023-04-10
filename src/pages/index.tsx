@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { useLocationMarker } from "@/customHook/useLocationMarker";
 import { Map, Marker, ZoomControl } from "pigeon-maps";
 import useWindowDimensions from "@/customHook/useWindowDimension";
+import Button from "@/components/Button";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,8 +21,12 @@ export default function Home() {
 
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-between w-full relative">
-        <div className="absolute inset-0 w-full flex flex-col items-end justify-center z-10 pointer-events-none"></div>
+      <main className="flex h-screen flex-col items-center justify-between w-screen relative">
+        <div className="absolute inset-0 w-full h-full flex flex-col items-start justify-end z-10 pointer-events-none box-border p-2">
+          <div className="flex flex-row items-center justify-start">
+            <Button onClick={resetMarker}>Reset Marker</Button>
+          </div>
+        </div>
 
         <Map
           width={width ?? 500}
@@ -29,7 +34,6 @@ export default function Home() {
           defaultCenter={[-6.922, 107.609]}
           defaultZoom={13}
           onClick={({ latLng, event, pixel }) => {
-            console.log("Latlng", latLng);
             if (isMarkerInHere(latLng)) {
               return;
             }
