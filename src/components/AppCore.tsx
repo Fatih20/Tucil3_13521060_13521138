@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import { createContext } from "react";
 import NewPathForm from "@/components/NewPathForm";
 import FileInput from "@/components/FileInput";
+import SearchBar from "./SearchBar";
 
 export const LocationAndRouteContext = createContext<UseLocationAndRouteHook>(
   {} as UseLocationAndRouteHook
@@ -46,6 +47,7 @@ export default function AppCore() {
               </div>
               <NewPathForm />
               <FileInput />
+              <SearchBar />
             </div>
           </div>
         </main>
