@@ -1,3 +1,5 @@
+import { LatLng } from "leaflet";
+
 export class Route {
   private source: number;
   private destination: number;
@@ -79,3 +81,66 @@ export type Node = {
   latitude: number;
   longitude: number;
 };
+
+export class LocationMarker {
+  private typeOfMarker: 0 | -1 | 1;
+  private lat: number;
+  private lng: number;
+  private name: string;
+
+  constructor(pos: LatLng, name: string) {
+    this.typeOfMarker = 0;
+    this.lat = pos.lat;
+    this.lng = pos.lng;
+    this.name = name;
+  }
+
+  public makeStart() {
+    this.typeOfMarker = -1;
+  }
+
+  public makeEnd() {
+    this.typeOfMarker = 1;
+  }
+
+  public isStart() {
+    return this.typeOfMarker === -1;
+  }
+
+  public isEnd() {
+    return this.typeOfMarker === 1;
+  }
+
+  public isRegular() {
+    return this.typeOfMarker === 0;
+  }
+
+  public getName() {
+    return this.name;
+  }
+
+  public setName(name: string) {
+    this.name = name;
+  }
+
+  public getLat() {
+    return this.lat;
+  }
+
+  public getLng() {
+    return this.lng;
+  }
+
+  public samePosition(lm: LocationMarker) {
+    return this.getLat() === lm.getLat() && this.getLng() === lm.getLng();
+  }
+
+  public distanceTo(lm: LocationMarker) {
+    const lat1 = this.getLat();
+    const lng1 = this.getLng();
+    const lat2 = lm.getLat();
+    const lng2 = lm.getLng();
+
+    return Math.sqrt((lat1 - lat2) ** 2 + (lng1 - lng2) ** 2);
+  }
+}

@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { LatLng } from "leaflet";
-import { Route } from "@/types";
 import { MapNode } from "@/mapNode";
+import { Node, Route, LocationMarker } from "@/types";
+
 export type UseLocationAndRouteHook = {
-  locationMarkers: LatLng[];
+  locationMarkers: LocationMarker[];
   addLocationMarker: (arg0: LatLng) => void;
-  addLocationMarkers: (arg1: LatLng[]) => void;
+  addLocationMarkers: (arg1: LocationMarker[]) => void;
   removeLocationMarker: (index: number) => void;
-  getMarkerAt: (index: number) => LatLng;
-  isMarkerInHere: (arg0: LatLng) => boolean;
+  getMarkerAt: (index: number) => LocationMarker;
+  isMarkerInHere: (arg0: LocationMarker) => boolean;
   resetMarker: () => void;
   routes: Route[];
   addRoute: (source: number, destination: number, twoWay: boolean) => void;
@@ -23,17 +24,21 @@ export type UseLocationAndRouteHook = {
 };
 
 export function useLocationAndRoute(
-  initialLocations: LatLng[],
+  initialLocations: LocationMarker[],
   initialRoutes: Route[]
 ) {
   const [locationMarkers, setLocationMarkers] = useState(initialLocations);
   const [routes, setRoutes] = useState(initialRoutes);
 
-  function addLocationMarker(addedMarker: LatLng) {
+  function addLocationMarker(addedPosition: LatLng) {
+    const addedMarker = new LocationMarker(
+      addedPosition,
+      locationMarkers.length.toString()
+    );
     setLocationMarkers([...locationMarkers, addedMarker]);
   }
 
-  function addLocationMarkers(addedMarkers: LatLng[]) {
+  function addLocationMarkers(addedMarkers: LocationMarker[]) {
     setLocationMarkers([...locationMarkers, ...addedMarkers]);
   }
 
@@ -44,12 +49,14 @@ export function useLocationAndRoute(
     setLocationMarkers(locationMarkers.filter((_, i) => i != index));
   }
 
-  function getMarkerAt(index: number): LatLng {
+  function getMarkerAt(index: number): LocationMarker {
     return locationMarkers[index];
   }
 
-  function isMarkerInHere(detectedMarker: LatLng) {
-    return !locationMarkers.every((marker) => !marker.equals(detectedMarker));
+  function isMarkerInHere(detectedMarker: LocationMarker) {
+    return !locationMarkers.every(
+      (marker) => !marker.samePosition(detectedMarker)
+    );
   }
 
   function resetMarker() {
@@ -123,7 +130,7 @@ export function useLocationAndRoute(
 
   function getLocationAsNodeList(): MapNode[] {
     return locationMarkers.map((markers, index) => {
-      return new MapNode(index.toString(), markers.lat, markers.lng);
+      return new MapNode(index.toString(), markers.getLat(), markers.getLng());
     });
   }
 
@@ -139,7 +146,7 @@ export function useLocationAndRoute(
   function parseFile(fileLines: string[]): boolean {
     const nNodes = Number(fileLines[0]);
 
-    let markers = [] as LatLng[];
+    let markers = [] as LocationMarker[];
     for (let i = 1; i < nNodes + 1; i++) {
       let lineRead = fileLines[i].split(" ");
 
@@ -153,7 +160,7 @@ export function useLocationAndRoute(
       // Return false if latitude or longitude isn't a number
       if (isNaN(lat) || isNaN(lon)) return false;
 
-      markers.push(new LatLng(lat, lon));
+      markers.push(new LocationMarker(new LatLng(lat, lon), name));
     }
 
     let routes = [] as Route[];

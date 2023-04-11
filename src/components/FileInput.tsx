@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { LocationAndRouteContext } from "@/pages";
+import { LocationAndRouteContext } from "@/components/AppCore";
 
 export default function FileInput() {
   const [file, setFile] = useState(null as null | File);

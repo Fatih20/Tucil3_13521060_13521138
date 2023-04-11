@@ -1,6 +1,6 @@
 import { Marker, Polyline, Popup, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { LocationAndRouteContext } from "@/pages";
+import { LocationAndRouteContext } from "@/components/AppCore";
 import { useContext } from "react";
 
 export default function RoutesLayer({}: {}) {
@@ -17,8 +17,8 @@ export default function RoutesLayer({}: {}) {
           <Polyline
             pathOptions={{ color: route.isTwoWay() ? "#DA70D6" : "#87CEFA" }}
             positions={[
-              [markerSource.lat, markerSource.lng],
-              [markerDestination.lat, markerDestination.lng],
+              [markerSource.getLat(), markerSource.getLng()],
+              [markerDestination.getLat(), markerDestination.getLng()],
             ]}
             key={`${route.getSource()} ${route.getDestination()}`}
           >

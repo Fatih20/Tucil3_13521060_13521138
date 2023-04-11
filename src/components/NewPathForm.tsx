@@ -1,4 +1,4 @@
-import { LocationAndRouteContext } from "@/pages";
+import { LocationAndRouteContext } from "@/components/AppCore";
 import { useContext, useState } from "react";
 import Image from "next/image";
 

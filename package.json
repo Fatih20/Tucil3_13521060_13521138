@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@datastructures-js/priority-queue": "^6.2.0",
+    "@types/leaflet": "^1.9.3",
     "@types/node": "18.15.11",
     "@types/react": "18.0.33",
     "@types/react-dom": "18.0.11",
@@ -27,8 +28,5 @@
     "tailwindcss": "3.3.1",
     "typescript": "5.0.4",
     "yarn": "^1.22.19"
-  },
-  "devDependencies": {
-    "@types/leaflet": "^1.9.3"
   }
 }
