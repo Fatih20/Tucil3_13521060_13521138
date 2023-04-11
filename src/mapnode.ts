@@ -45,7 +45,7 @@ export class Coordinate {
 
         const DegtoRad = Math.PI/180;
 
-        const R = 6356.7e3; // earth's radius, in metres
+        const R = 6356.7e3; // earth's minimum radius, in metres
         const φ1 = lat1 * DegtoRad; // φ, λ in radians
         const φ2 = lat2 * DegtoRad;
         const Δφ = (lat2-lat1) * DegtoRad;

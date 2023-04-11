@@ -120,7 +120,7 @@ class AdjacencyList implements GraphSearching {
             if(!isVisited[currentNode.index]) {
                 isVisited[currentNode.index] = true;
                 (this.list[currentNode.index][1]).forEach(neighbor => {
-                    let nextNode: TreeNode = new TreeNode(neighbor.index, (currentNode.totalWeight + neighbor.weight + SLD[neighbor.index]), currentNode);
+                    let nextNode: TreeNode = new TreeNode(neighbor.index, (currentNode.totalWeight + neighbor.weight), currentNode, SLD[neighbor.index]);
                     queue.enqueue(nextNode);
                 });
             }
