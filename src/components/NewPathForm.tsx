@@ -47,8 +47,11 @@ export default function NewPathForm() {
         })}
       </select>
       <button
-        className="btn btn-primary"
+        className={`btn btn-primary ${
+          selectedFirstNode === selectedSecondNode ? "btn-disabled" : ""
+        }`}
         type="submit"
+        disabled={selectedFirstNode === selectedSecondNode}
         onClick={(e) => {
           e.preventDefault();
           handleSubmit();
