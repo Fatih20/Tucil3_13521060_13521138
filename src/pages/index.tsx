@@ -9,6 +9,7 @@ import Button from "@/components/Button";
 import useRoute, { UseRouteHook } from "@/customHook/useRoute";
 import dynamic from "next/dynamic";
 import { createContext } from "react";
+import { LatLng } from "leaflet";
 
 export const LocationMarkerContext = createContext<UseLocationMarkerHook>(
   {} as UseLocationMarkerHook
@@ -47,6 +48,12 @@ export default function Home() {
                   <button
                     className="btn btn-small pointer-events-auto"
                     onClick={routeHook.resetRoutes}
+                  >
+                    Reset Routes
+                  </button>
+                  <button
+                    className="btn btn-small pointer-events-auto"
+                    onClick={() => routeHook.addRoute(1, 2, 2)}
                   >
                     Reset Routes
                   </button>

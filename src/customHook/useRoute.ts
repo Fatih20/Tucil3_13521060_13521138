@@ -7,6 +7,7 @@ export type UseRouteHook = {
   addRoutes: (addedRoute: Route[]) => void;
   resetRoutes: () => void;
   removeRouteWithNodeIndex: (index: number) => void;
+  removeRoute: (index: number) => void;
 };
 
 export default function useRoute(initialValues: Route[]) {
@@ -32,6 +33,13 @@ export default function useRoute(initialValues: Route[]) {
     ]);
   }
 
+  function removeRoute(index: number) {
+    if (index < 0) {
+      return;
+    }
+    setRoutes(routes.filter((_, i) => i != index));
+  }
+
   function resetRoutes() {
     setRoutes([]);
   }
@@ -42,5 +50,6 @@ export default function useRoute(initialValues: Route[]) {
     addRoutes,
     resetRoutes,
     removeRouteWithNodeIndex,
+    removeRoute,
   };
 }
