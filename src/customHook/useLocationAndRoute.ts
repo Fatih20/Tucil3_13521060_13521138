@@ -15,6 +15,7 @@ export type UseLocationAndRouteHook = {
   resetRoutes: () => void;
   removeRouteWithNodeIndex: (index: number) => void;
   removeRoute: (index: number) => void;
+  getRouteMatrix: () => (string | number)[][];
 };
 
 export function useLocationAndRoute(
@@ -98,6 +99,21 @@ export function useLocationAndRoute(
 
   function resetRoutes() {
     setRoutes([]);
+  }
+
+  function getRouteMatrix() {
+    const numberOfRoutes = routes.length;
+    const matrix = new Array(numberOfRoutes).fill(
+      new Array(numberOfRoutes).fill("-")
+    );
+
+    routes.forEach((route) => {
+      matrix[route.getSource()][route.getDestination()] = route.getWeight();
+      if (route.isTwoWay()) {
+        matrix[route.getDestination()][route.getSource()] = route.getWeight();
+      }
+    });
+    return matrix;
   }
 
   return {
