@@ -22,15 +22,20 @@ export default function RoutesLayer({}: {}) {
             key={`${route.getSource()} ${route.getDestination()}`}
           >
             <Popup>
-              {route.getWeight()}
-              <button
-                className="btn btn-primary"
-                onClick={() => {
-                  removeRoute(index);
-                }}
-              >
-                Delete
-              </button>
+              <div className="flex flex-col items-center justify-start">
+                <p className="text-black text-base">
+                  {route.isTwoWay() ? "Two-Way" : "One-Way"}
+                </p>
+                <p className="text-black text-base">{route.getWeight()}</p>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    removeRoute(index);
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
             </Popup>
           </Polyline>
         );

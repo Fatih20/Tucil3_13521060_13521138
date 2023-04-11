@@ -10,7 +10,7 @@ export type UseLocationAndRouteHook = {
   isMarkerInHere: (arg0: LatLng) => boolean;
   resetMarker: () => void;
   routes: Route[];
-  addRoute: (source: number, destination: number) => void;
+  addRoute: (source: number, destination: number, twoWay: boolean) => void;
   addRoutes: (addedRoute: Route[]) => void;
   resetRoutes: () => void;
   removeRouteWithNodeIndex: (index: number) => void;
@@ -51,9 +51,9 @@ export function useLocationAndRoute(
     setLocationMarkers([]);
   }
 
-  function addRoute(source: number, destination: number) {
+  function addRoute(source: number, destination: number, isTwoWay: boolean) {
     const weight = getMarkerAt(source).distanceTo(getMarkerAt(destination));
-    const addedRoute = new Route(source, destination, weight);
+    const addedRoute = new Route(source, destination, weight, isTwoWay);
 
     // Prevent adding route to itself
     if (source === destination) {
@@ -61,13 +61,18 @@ export function useLocationAndRoute(
     }
 
     // Prevent adding existing routes
-    if (
-      routes.some(
-        (route) =>
-          route.getSource() == source && route.getDestination() == destination
-      )
-    ) {
+    if (routes.some((route) => route.isEqual(addedRoute))) {
       return;
+    }
+
+    // If one-way version already exists, remove the old one and add two way
+    const indexOfEqualSD = routes.findIndex((route) =>
+      addedRoute.isEqualSD(route)
+    );
+
+    if (indexOfEqualSD != -1) {
+      addedRoute.makeTwoWay();
+      removeRoute(indexOfEqualSD);
     }
 
     setRoutes([...routes, addedRoute]);
@@ -81,11 +86,7 @@ export function useLocationAndRoute(
     if (index < 0) {
       return;
     }
-    setRoutes([
-      ...routes.filter(
-        (route) => route.getSource() != index && route.getDestination() != index
-      ),
-    ]);
+    setRoutes([...routes.filter((route) => !route.isContainNodeIndex(index))]);
   }
 
   function removeRoute(index: number) {

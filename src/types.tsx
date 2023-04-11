@@ -2,26 +2,26 @@ export class Route {
   private source: number;
   private destination: number;
   private weight: number;
-  private isTwoWay: boolean;
+  private twoWay: boolean;
 
   constructor(
     source: number,
     destination: number,
     weight: number,
-    isTwoWay: boolean = false
+    twoWay: boolean = false
   ) {
     this.source = source;
     this.destination = destination;
     this.weight = weight;
-    this.isTwoWay = isTwoWay;
+    this.twoWay = twoWay;
   }
 
   public getSource(): number {
     return this.source;
   }
 
-  public getTwoWay(): boolean {
-    return this.isTwoWay;
+  public isTwoWay(): boolean {
+    return this.twoWay;
   }
 
   public getDestination(): number {
@@ -39,7 +39,7 @@ export class Route {
   }
 
   public makeTwoWay() {
-    this.isTwoWay = true;
+    this.twoWay = true;
   }
 
   public isEqual(r: Route): boolean {
@@ -53,5 +53,9 @@ export class Route {
       this.isEqual(r) ||
       (this.source === r.getDestination() && this.destination === r.getSource())
     );
+  }
+
+  public isContainNodeIndex(index: number) {
+    return this.destination === index || this.source === index;
   }
 }
