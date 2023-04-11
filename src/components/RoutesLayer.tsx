@@ -15,6 +15,7 @@ export default function RoutesLayer({}: {}) {
 
         return (
           <Polyline
+            pathOptions={{ color: route.isTwoWay() ? "#DA70D6" : "#87CEFA" }}
             positions={[
               [markerSource.lat, markerSource.lng],
               [markerDestination.lat, markerDestination.lng],
@@ -23,8 +24,12 @@ export default function RoutesLayer({}: {}) {
           >
             <Popup>
               <div className="flex flex-col items-center justify-start">
-                <p className="text-black text-base">
-                  {route.isTwoWay() ? "Two-Way" : "One-Way"}
+                <p
+                  className={`text-black text-base text-center ${
+                    route.isTwoWay() ? "hidden" : ""
+                  }`}
+                >
+                  {`(${route.getSource()} to ${route.getDestination()})`}
                 </p>
                 <p className="text-black text-base">{route.getWeight()}</p>
                 <button
