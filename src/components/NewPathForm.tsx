@@ -40,11 +40,7 @@ export default function NewPathForm() {
       >
         {locationMarkers.map((_, index) => {
           return (
-            <option
-              key={index}
-              className={`${selectedFirstNode === index ? "hidden" : ""}`}
-              value={index}
-            >
+            <option key={index} value={index}>
               {index}
             </option>
           );
