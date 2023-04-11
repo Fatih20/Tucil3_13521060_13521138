@@ -19,9 +19,12 @@ export default function MarkersLayer({}: {}) {
         return (
           <Marker position={marker} key={`${marker.lat} ${marker.lng}`}>
             <Popup>
-              <Button small={true} onClick={() => removeLocationMarker(index)}>
+              <button
+                className="btn btn-primary"
+                onClick={() => removeLocationMarker(index)}
+              >
                 Delete
-              </Button>
+              </button>
             </Popup>
           </Marker>
         );

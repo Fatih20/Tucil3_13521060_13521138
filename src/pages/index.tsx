@@ -33,15 +33,23 @@ export default function Home() {
     <>
       <LocationMarkerContext.Provider value={locationMarkerHook}>
         <RouteContext.Provider value={routeHook}>
-          <main className="flex h-screen flex-col items-center justify-between w-screen relative">
+          <main className="flex h-screen flex-col items-center justify-between w-screen relative bg-white">
             <MapComponent />
             <div className="w-full flex flex-col items-start justify-end z-[100] pointer-events-none box-border p-2">
               <div className="flex flex-row items-center justify-start relative z-50">
                 <div className="flex flex-col items-center justify-center gap-4">
-                  <Button onClick={locationMarkerHook.resetMarker}>
+                  <button
+                    className="btn btn-small pointer-events-auto"
+                    onClick={locationMarkerHook.resetMarker}
+                  >
                     Reset Marker
-                  </Button>
-                  <Button onClick={routeHook.resetRoutes}>Reset Routes</Button>
+                  </button>
+                  <button
+                    className="btn btn-small pointer-events-auto"
+                    onClick={routeHook.resetRoutes}
+                  >
+                    Reset Routes
+                  </button>
                 </div>
               </div>
             </div>
