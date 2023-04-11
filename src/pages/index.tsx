@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import { useLocationMarker } from "@/customHook/useLocationMarker";
-import { Map, Marker, ZoomControl, GeoJson, GeoJsonFeature } from "pigeon-maps";
 import useWindowDimensions from "@/customHook/useWindowDimension";
 import Button from "@/components/Button";
 import useRoute from "@/customHook/useRoute";
+import dynamic from "next/dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,10 +24,15 @@ export default function Home() {
 
   const { width, height } = useWindowDimensions();
 
+  const MapComponent = dynamic(
+    () => import("@/components/MapComponent"), // replace '@components/map' with your component's location
+    { ssr: false, loading: () => <p>A map is loading</p> } // This line is important. It's what prevents server-side render
+  );
+
   return (
     <>
       <main className="flex h-screen flex-col items-center justify-between w-screen relative">
-        <div className="absolute inset-0 w-full h-full flex flex-col items-start justify-end z-10 pointer-events-none box-border p-2">
+        <div className="absolute inset-0 w-full h-full flex flex-col items-start justify-end z-50 pointer-events-none box-border p-2">
           <div className="flex flex-row items-center justify-start">
             <div className="flex flex-col items-center justify-center gap-4">
               <Button onClick={resetMarker}>Reset Marker</Button>
@@ -36,78 +41,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        <Map
-          width={width ?? 500}
-          height={height ?? 500}
-          defaultCenter={[-6.922, 107.609]}
-          defaultZoom={13}
-          onClick={({ latLng, event, pixel }) => {
-            if (isMarkerInHere(latLng)) {
-              return;
-            }
-            addLocationMarker(latLng);
-          }}
-        >
-          <GeoJson
-            data={{
-              type: "FeatureCollection",
-              features: routes.map((route) => {
-                console.log(getMarkerAt(route.source - 1));
-                console.log(getMarkerAt(route.destination - 1));
-                return {
-                  type: "Feature",
-                  geometry: {
-                    type: "LineString",
-                    coordinates: [
-                      // getMarkerAt(route.source - 1),
-                      // getMarkerAt(route.destination - 1),
-                      [-6.912499537938287, 107.60766124107988],
-                      [-7.12499537938287, 108.60766124107988],
-                    ],
-                  },
-                };
-              }),
-            }}
-            styleCallback={(feature: any, hover: any) => {
-              if (feature.geometry.type === "LineString") {
-                return { strokeWidth: "1", stroke: "black" };
-              }
-              return {
-                fill: "#d4e6ec99",
-                strokeWidth: "1",
-                stroke: "white",
-                r: "20",
-              };
-            }}
-          >
-            {/* <GeoJsonFeature feature={} /> */}
-          </GeoJson>
-          {locationMarkers.map((latlng, index) => {
-            return (
-              <Marker
-                width={30}
-                height={30}
-                key={latlng.toString()}
-                anchor={latlng}
-                color={`hsl(360deg 39% 70%)`}
-              >
-                <div className="relative">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <p className="text-white">{index + 1}</p>
-                  </div>
-                  <Image
-                    src={"/locationIcon.svg"}
-                    width={30}
-                    height={30}
-                    alt={"Location Marker"}
-                  />
-                </div>
-              </Marker>
-            );
-          })}
-          <ZoomControl />
-        </Map>
+        <MapComponent />
       </main>
     </>
   );
