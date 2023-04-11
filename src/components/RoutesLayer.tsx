@@ -20,7 +20,9 @@ export default function RoutesLayer({}: {}) {
               [markerSource.lat, markerSource.lng],
               [markerDestination.lat, markerDestination.lng],
             ]}
-            key={`${route.getSource()} ${route.getDestination()}`}
+            key={`${getMarkerAt(route.getSource()).getName()} ${getMarkerAt(
+              route.getDestination()
+            ).getName()}`}
           >
             <Popup>
               <div className="flex flex-col items-center justify-start">
@@ -29,7 +31,11 @@ export default function RoutesLayer({}: {}) {
                     route.isTwoWay() ? "hidden" : ""
                   }`}
                 >
-                  {`(${route.getSource()} to ${route.getDestination()})`}
+                  {`(${getMarkerAt(
+                    route.getSource()
+                  ).getName()} to ${getMarkerAt(
+                    route.getDestination()
+                  ).getName()})`}
                 </p>
                 <p className="text-black text-base">{route.getWeight()}</p>
                 <button

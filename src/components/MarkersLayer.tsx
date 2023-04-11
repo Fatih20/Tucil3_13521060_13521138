@@ -34,7 +34,9 @@ export default function MarkersLayer({}: {}) {
             key={`${marker.lat} ${marker.lng}`}
           >
             <Popup>
-              <p className="text-base font-black text-center">{index}</p>
+              <p className="text-base font-black text-center">
+                {marker.getName()}
+              </p>
               <button
                 className="btn btn-xs"
                 onClick={() => {
