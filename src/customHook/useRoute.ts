@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { Route } from "../types";
 
+export type UseRouteHook = {
+  routes: Route[];
+  addRoute: (source: number, destination: number, weight: number) => void;
+  addRoutes: (addedRoute: Route[]) => void;
+  resetRoutes: () => void;
+  removeRouteWithNodeIndex: (index: number) => void;
+};
+
 export default function useRoute(initialValues: Route[]) {
   const [routes, setRoutes] = useState(initialValues);
 

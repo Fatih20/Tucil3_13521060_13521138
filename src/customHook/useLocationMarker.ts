@@ -33,10 +33,7 @@ export function useLocationMarker(initialValues: LatLng[]) {
   }
 
   function isMarkerInHere(detectedMarker: LatLng) {
-    return !locationMarkers.every(
-      (marker) =>
-        marker.lat != detectedMarker.lat && marker.lng != detectedMarker.lng
-    );
+    return !locationMarkers.every((marker) => !marker.equals(detectedMarker));
   }
 
   function resetMarker() {
