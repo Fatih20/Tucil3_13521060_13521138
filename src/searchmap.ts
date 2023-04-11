@@ -7,7 +7,7 @@ import {
     compareTreeNode
 } from "./mapnode"
 
-interface GraphSearching {
+export interface GraphSearching {
     /**
      * Graph searching for start-end path with UCS Algorithm
      * @param startNode starting node
@@ -25,11 +25,28 @@ interface GraphSearching {
     AStar(startNode: number, destNode: number): MapNode[];
 }
 
-class AdjacencyList implements GraphSearching {
+export class AdjacencyList implements GraphSearching {
     private list: [node: MapNode, neighbors: AdjacentNode[]][];
 
-    constructor() {
-        this.list = new Array<[MapNode, AdjacentNode[]]>;
+    constructor(nodes: [string, number, number][], graph: number[][]) {
+        const nNodes = nodes.length;
+        this.list = new Array<[MapNode, AdjacentNode[]]>(nNodes);
+        for (let i = 0; i < nNodes; i++) {
+            /* insert node information */
+            let node = nodes[i];
+            let elmt = this.list[i]
+            elmt[0] = new MapNode(node[0], node[1], node[2]);
+
+            elmt[i] = new Array<AdjacentNode>();
+            /* insert neighboring nodes */
+            for(let j = 0; j < nNodes; j++) {
+                let weight = graph[i][j];
+                if(!isNaN(weight)) {
+                    let newNeighbor = new AdjacentNode(j, weight);
+                    this.addNeighbor(i, newNeighbor);
+                }
+            }
+        }
     }
 
     /**
@@ -46,7 +63,7 @@ class AdjacencyList implements GraphSearching {
      * @param i index of node in adjacency list to add the neighboring node
      * @param neighbor the adjacent node to be added as neighbor
      */
-    public addNeighbors(i: number, neighbor: AdjacentNode) {
+    public addNeighbor(i: number, neighbor: AdjacentNode) {
         this.list[i][1].push(neighbor);
     }
 
