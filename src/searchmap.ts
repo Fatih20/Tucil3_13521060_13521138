@@ -92,6 +92,8 @@ export class AdjacencyList implements GraphSearching {
         let currentNode: TreeNode;
         do {
             currentNode = queue.dequeue();
+    
+            if (currentNode.index == destNode) break;
 
             if(!isVisited[currentNode.index]) {
                 isVisited[currentNode.index] = true;
@@ -100,7 +102,7 @@ export class AdjacencyList implements GraphSearching {
                     queue.enqueue(nextNode);
                 });
             }
-        } while (!queue.isEmpty && currentNode.index != destNode);
+        } while (!queue.isEmpty);
 
         if(currentNode.index == destNode) {
             let path = new Array<MapNode>();
@@ -131,6 +133,8 @@ export class AdjacencyList implements GraphSearching {
         let currentNode: TreeNode;
         do {
             currentNode = queue.dequeue();
+    
+            if (currentNode.index == destNode) break;
 
             if(!isVisited[currentNode.index]) {
                 isVisited[currentNode.index] = true;
@@ -139,7 +143,7 @@ export class AdjacencyList implements GraphSearching {
                     queue.enqueue(nextNode);
                 });
             }
-        } while (!queue.isEmpty && currentNode.index != destNode);
+        } while (!queue.isEmpty);
 
         if(currentNode.index == destNode) {
             let path = new Array<MapNode>();
