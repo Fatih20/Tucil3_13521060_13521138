@@ -1,5 +1,6 @@
 import { LocationAndRouteContext } from "@/pages";
 import { useContext, useState } from "react";
+import Image from "next/image";
 
 export default function NewPathForm() {
   const { locationMarkers, addRoute, routes } = useContext(
@@ -7,11 +8,16 @@ export default function NewPathForm() {
   );
   const [selectedFirstNode, setSelectedFirstNode] = useState(0);
   const [selectedSecondNode, setSelectedSecondNode] = useState(0);
+  const [firstToSecond, setFirstToSecond] = useState(true);
   const [isTwoWay, setIsTwoWay] = useState(false);
 
   function handleSubmit() {
     // console.log("Selecteds", selectedFirstNode, selectedSecondNode);
-    addRoute(selectedFirstNode, selectedSecondNode, isTwoWay);
+    if (firstToSecond) {
+      addRoute(selectedFirstNode, selectedSecondNode, isTwoWay);
+    } else {
+      addRoute(selectedSecondNode, selectedFirstNode, isTwoWay);
+    }
   }
 
   return (
@@ -34,6 +40,21 @@ export default function NewPathForm() {
           );
         })}
       </select>
+      <button
+        className=""
+        onClick={() => setFirstToSecond((prev) => !prev)}
+        type="button"
+      >
+        <Image
+          src="/arrow.svg"
+          alt="Arrow from to node"
+          className={`transition-transform ${
+            firstToSecond ? "" : "rotate-180"
+          }`}
+          width={30}
+          height={20}
+        />
+      </button>
       <select
         value={selectedSecondNode}
         onChange={(e) => setSelectedSecondNode(Number(e.target.value))}
