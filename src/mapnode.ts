@@ -45,15 +45,18 @@ export class Coordinate {
 
         const DegtoRad = Math.PI/180;
 
-        const R = 6371e3; // earth's radius, in metres
+        const R = 6356.7e3; // earth's radius, in metres
         const φ1 = lat1 * DegtoRad; // φ, λ in radians
         const φ2 = lat2 * DegtoRad;
         const Δφ = (lat2-lat1) * DegtoRad;
         const Δλ = (lon2-lon1) * DegtoRad;
 
-        const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+        const sinΔφ2 = Math.sin(Δφ/2);
+        const sinΔλ2 = Math.sin(Δλ/2)
+
+        const a = sinΔφ2 * sinΔφ2 +
                 Math.cos(φ1) * Math.cos(φ2) *
-                Math.sin(Δλ/2) * Math.sin(Δλ/2);
+                sinΔλ2 * sinΔλ2;
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
         const d = R * c; // distance, in metres
