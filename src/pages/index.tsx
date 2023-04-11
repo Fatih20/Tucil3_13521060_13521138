@@ -18,9 +18,9 @@ export default function Home() {
     resetMarker,
   } = useLocationMarker([]);
 
-  const { routes, addRoute, removeRouteWithNodeIndex, resetRoutes } = useRoute(
-    []
-  );
+  const { routes, addRoute, removeRouteWithNodeIndex, resetRoutes } = useRoute([
+    // { destination: 1, source: 2, weight: 50 },
+  ]);
 
   const { width, height } = useWindowDimensions();
 
@@ -32,6 +32,7 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center gap-4">
               <Button onClick={resetMarker}>Reset Marker</Button>
               <Button onClick={resetRoutes}>Reset Routes</Button>
+              <Button onClick={() => addRoute(1, 2, 50)}>Reset Routes</Button>
             </div>
           </div>
         </div>
@@ -52,17 +53,30 @@ export default function Home() {
             data={{
               type: "FeatureCollection",
               features: routes.map((route) => {
+                console.log(getMarkerAt(route.source - 1));
+                console.log(getMarkerAt(route.destination - 1));
                 return {
                   type: "Feature",
                   geometry: {
                     type: "LineString",
                     coordinates: [
-                      getMarkerAt(route.source),
-                      getMarkerAt(route.destination),
+                      getMarkerAt(route.source - 1),
+                      getMarkerAt(route.destination - 1),
                     ],
                   },
                 };
               }),
+            }}
+            styleCallback={(feature: any, hover: any) => {
+              if (feature.geometry.type === "LineString") {
+                return { strokeWidth: "1", stroke: "black" };
+              }
+              return {
+                fill: "#d4e6ec99",
+                strokeWidth: "1",
+                stroke: "white",
+                r: "20",
+              };
             }}
           />
           {locationMarkers.map((latlng, index) => {
