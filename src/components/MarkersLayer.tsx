@@ -1,4 +1,4 @@
-import { LatLng } from "leaflet";
+import L, { LatLng } from "leaflet";
 import { Marker, Popup, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { LocationAndRouteContext } from "@/pages";
@@ -16,11 +16,20 @@ export default function MarkersLayer({}: {}) {
       addLocationMarker(latlng);
     },
   });
+
+  const customIcon = new L.Icon({
+    iconUrl: "/locationIcon.svg",
+    iconSize: [32, 40],
+  });
   return (
     <>
       {locationMarkers.map((marker, index) => {
         return (
-          <Marker position={marker} key={`${marker.lat} ${marker.lng}`}>
+          <Marker
+            icon={customIcon}
+            position={marker}
+            key={`${marker.lat} ${marker.lng}`}
+          >
             <Popup>
               <button
                 className="btn btn-primary"
