@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { LatLng } from "leaflet";
-import { Route } from "@/types";
+import { Node, Route } from "@/types";
 export type UseLocationAndRouteHook = {
   locationMarkers: LatLng[];
   addLocationMarker: (arg0: LatLng) => void;
@@ -16,6 +16,7 @@ export type UseLocationAndRouteHook = {
   removeRouteWithNodeIndex: (index: number) => void;
   removeRoute: (index: number) => void;
   getRouteMatrix: () => (string | number)[][];
+  getLocationAsNodeList: () => Node[];
 };
 
 export function useLocationAndRoute(
@@ -116,6 +117,16 @@ export function useLocationAndRoute(
     return matrix;
   }
 
+  function getLocationAsNodeList(): Node[] {
+    return locationMarkers.map((markers, index) => {
+      return {
+        name: index.toString(),
+        latitude: markers.lat,
+        longitude: markers.lng,
+      };
+    });
+  }
+
   return {
     locationMarkers,
     addLocationMarker,
@@ -130,5 +141,6 @@ export function useLocationAndRoute(
     resetRoutes,
     removeRouteWithNodeIndex,
     removeRoute,
+    getLocationAsNodeList,
   } as UseLocationAndRouteHook;
 }

@@ -59,3 +59,9 @@ export class Route {
     return this.destination === index || this.source === index;
   }
 }
+
+export type Node = {
+  name: string;
+  latitude: number;
+  longitude: number;
+};
