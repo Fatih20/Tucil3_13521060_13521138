@@ -7,6 +7,7 @@ import {
 import useWindowDimensions from "@/customHook/useWindowDimension";
 import dynamic from "next/dynamic";
 import { createContext } from "react";
+import NewPathForm from "@/components/NewPathForm";
 
 export const LocationAndRouteContext = createContext<UseLocationAndRouteHook>(
   {} as UseLocationAndRouteHook
@@ -30,9 +31,9 @@ export default function Home() {
         <main className="flex h-screen flex-col items-center justify-between w-screen relative bg-white">
           <MapComponent />
           <div className="w-full flex flex-col items-start justify-end z-[100] pointer-events-none box-border p-2">
-            <div className="flex flex-row items-center justify-start relative z-50">
+            <div className="flex flex-row items-start justify-start w-full pointer-events-auto">
               <div className="flex flex-col items-center justify-center gap-4">
-                <button
+                {/* <button
                   className="btn btn-small pointer-events-auto"
                   onClick={locationAndRouteHook.resetMarker}
                 >
@@ -49,8 +50,9 @@ export default function Home() {
                   onClick={() => locationAndRouteHook.addRoute(1, 2)}
                 >
                   Reset Routes
-                </button>
+                </button> */}
               </div>
+              <NewPathForm />
             </div>
           </div>
         </main>
