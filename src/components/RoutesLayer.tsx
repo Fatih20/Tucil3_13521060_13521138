@@ -9,9 +9,9 @@ export default function RoutesLayer({}: {}) {
   );
   return (
     <>
-      {routes.map(({ destination, source, weight }, index) => {
-        const markerSource = getMarkerAt(source);
-        const markerDestination = getMarkerAt(destination);
+      {routes.map((route, index) => {
+        const markerSource = getMarkerAt(route.getSource());
+        const markerDestination = getMarkerAt(route.getDestination());
 
         return (
           <Polyline
@@ -19,10 +19,10 @@ export default function RoutesLayer({}: {}) {
               [markerSource.lat, markerSource.lng],
               [markerDestination.lat, markerDestination.lng],
             ]}
-            key={`${source} ${destination}`}
+            key={`${route.getSource()} ${route.getDestination()}`}
           >
             <Popup>
-              {weight}
+              {route.getWeight()}
               <button
                 className="btn btn-primary"
                 onClick={() => {

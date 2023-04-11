@@ -53,7 +53,7 @@ export function useLocationAndRoute(
 
   function addRoute(source: number, destination: number) {
     const weight = getMarkerAt(source).distanceTo(getMarkerAt(destination));
-    const addedRoute: Route = { source, destination, weight };
+    const addedRoute = new Route(source, destination, weight);
 
     // Prevent adding route to itself
     if (source === destination) {
@@ -63,7 +63,8 @@ export function useLocationAndRoute(
     // Prevent adding existing routes
     if (
       routes.some(
-        (route) => route.source == source && route.destination == destination
+        (route) =>
+          route.getSource() == source && route.getDestination() == destination
       )
     ) {
       return;
@@ -82,7 +83,7 @@ export function useLocationAndRoute(
     }
     setRoutes([
       ...routes.filter(
-        (route) => route.source != index && route.destination != index
+        (route) => route.getSource() != index && route.getDestination() != index
       ),
     ]);
   }
