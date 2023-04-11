@@ -138,12 +138,13 @@ export function useLocationAndRoute(
   }
 
   function parseFile(fileLines: string[]): boolean {
-    const nNodes = Number(fileLines[0]);
+    const nNodes = Number(fileLines[0].split(" ")[0]);
+    console.log(nNodes);
 
     let markers = [] as LocationMarker[];
     for (let i = 1; i < nNodes + 1; i++) {
       let lineRead = fileLines[i].split(" ");
-
+      console.log(lineRead);
       // Return false if the number of element is incorrect
       if (lineRead.length != 3) return false;
 
@@ -159,24 +160,49 @@ export function useLocationAndRoute(
 
     let routes = [] as Route[];
 
-    for (let i = nNodes; i < nNodes * 2; i++) {
+    for (let i = nNodes + 1; i < nNodes * 2 + 1; i++) {
       let trueIndex = i - nNodes;
       let lineRead = fileLines[i].split(" ");
+      // console.log(lineRead);
 
       if (lineRead.length != nNodes) return false;
 
-      for (let j = 0; j < nNodes; j++) {
-        const weight = parseFloat(lineRead[j]);
-        if (isNaN(weight)) continue;
+      for (let j = trueIndex; j < nNodes; j++) {
+        const weight1 = parseFloat(fileLines[trueIndex][j]);
+        const weight2 = parseFloat(fileLines[j][trueIndex]);
 
-        const addedRoute = new Route(trueIndex, j, parseFloat(lineRead[j]));
+        // Jika kedua nilai bukan angka, lewati loop
+        if (isNaN(weight1) && isNaN(weight2)) continue;
 
-        routes.push(addedRoute);
+        // Jika salah satu dan hanya satu dari weight1 atau weight 2 adalah angka, maka buatlah satu saja addedRoute yang tidak TwoWay
+        if (isNaN(weight1) != isNaN(weight2)) {
+          let addedRoute: Route;
+          if (!isNaN(weight1)) {
+            addedRoute = new Route(trueIndex, j, weight1);
+          } else {
+            addedRoute = new Route(j, trueIndex, weight2);
+          }
+          routes.push(addedRoute);
+        } else {
+          // Jika weight bernilai sama, maka tambahkan sebuah rute two way
+          if (weight1 === weight2) {
+            const addedRoute = new Route(trueIndex, j, weight1);
+            addedRoute.makeTwoWay();
+            routes.push(addedRoute);
+          }
+          // Jika weight tidak sama, maka tambahkan dua rute one way
+          else {
+            const addedRoute1 = new Route(trueIndex, j, weight1);
+            const addedRoute2 = new Route(j, trueIndex, weight2);
+            routes.push(addedRoute1);
+            routes.push(addedRoute2);
+          }
+        }
       }
     }
 
-    setLocationMarkers(markers);
-    setRoutes(routes);
+    setLocationMarkers([...markers]);
+    setRoutes([...routes]);
     return true;
   }
 

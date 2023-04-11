@@ -3,6 +3,7 @@ import { LocationAndRouteContext } from "@/components/AppCore";
 
 export default function FileInput() {
   const [file, setFile] = useState(null as null | File);
+  const [fileReadSuccess, setFileReadSuccess] = useState(true);
   const { parseFile } = useContext(LocationAndRouteContext);
   function handleLoadFile() {
     if (file === null) {
@@ -35,6 +36,9 @@ export default function FileInput() {
       <button type="submit" className="btn btn-sm">
         Load File
       </button>
+      {fileReadSuccess ? null : (
+        <p className="text-base text-red-600">Pembacaan file gagal</p>
+      )}
     </form>
   );
 }
