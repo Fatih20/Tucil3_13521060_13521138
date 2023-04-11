@@ -17,8 +17,8 @@ export default function RoutesLayer({}: {}) {
           <Polyline
             pathOptions={{ color: route.isTwoWay() ? "#DA70D6" : "#87CEFA" }}
             positions={[
-              [markerSource.getLat(), markerSource.getLng()],
-              [markerDestination.getLat(), markerDestination.getLng()],
+              [markerSource.lat, markerSource.lng],
+              [markerDestination.lat, markerDestination.lng],
             ]}
             key={`${route.getSource()} ${route.getDestination()}`}
           >

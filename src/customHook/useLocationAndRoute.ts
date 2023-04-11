@@ -5,7 +5,7 @@ import { Node, Route, LocationMarker } from "@/types";
 
 export type UseLocationAndRouteHook = {
   locationMarkers: LocationMarker[];
-  addLocationMarker: (arg0: LatLng) => void;
+  addLocationMarker: (arg0: LocationMarker) => void;
   addLocationMarkers: (arg1: LocationMarker[]) => void;
   removeLocationMarker: (index: number) => void;
   getMarkerAt: (index: number) => LocationMarker;
@@ -30,11 +30,7 @@ export function useLocationAndRoute(
   const [locationMarkers, setLocationMarkers] = useState(initialLocations);
   const [routes, setRoutes] = useState(initialRoutes);
 
-  function addLocationMarker(addedPosition: LatLng) {
-    const addedMarker = new LocationMarker(
-      addedPosition,
-      locationMarkers.length.toString()
-    );
+  function addLocationMarker(addedMarker: LocationMarker) {
     setLocationMarkers([...locationMarkers, addedMarker]);
   }
 
@@ -54,9 +50,7 @@ export function useLocationAndRoute(
   }
 
   function isMarkerInHere(detectedMarker: LocationMarker) {
-    return !locationMarkers.every(
-      (marker) => !marker.samePosition(detectedMarker)
-    );
+    return !locationMarkers.every((marker) => !marker.equals(detectedMarker));
   }
 
   function resetMarker() {
@@ -130,7 +124,7 @@ export function useLocationAndRoute(
 
   function getLocationAsNodeList(): MapNode[] {
     return locationMarkers.map((markers, index) => {
-      return new MapNode(index.toString(), markers.getLat(), markers.getLng());
+      return new MapNode(index.toString(), markers.lat, markers.lng);
     });
   }
 

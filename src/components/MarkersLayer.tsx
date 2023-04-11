@@ -3,6 +3,7 @@ import { Marker, Popup, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { LocationAndRouteContext } from "@/components/AppCore";
 import { useContext } from "react";
+import { LocationMarker } from "@/types";
 
 export default function MarkersLayer({}: {}) {
   const {
@@ -13,7 +14,9 @@ export default function MarkersLayer({}: {}) {
   } = useContext(LocationAndRouteContext);
   const mapEvent = useMapEvents({
     click({ latlng }) {
-      addLocationMarker(latlng);
+      addLocationMarker(
+        new LocationMarker(latlng, locationMarkers.length.toString())
+      );
     },
   });
 
@@ -27,8 +30,8 @@ export default function MarkersLayer({}: {}) {
         return (
           <Marker
             icon={customIcon}
-            position={new LatLng(marker.getLat(), marker.getLng())}
-            key={`${marker.getLat()} ${marker.getLng()}`}
+            position={new LatLng(marker.lat, marker.lng)}
+            key={`${marker.lat} ${marker.lng}`}
           >
             <Popup>
               <p className="text-base font-black text-center">{index}</p>
