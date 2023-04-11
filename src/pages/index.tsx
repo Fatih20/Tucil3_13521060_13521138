@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import { useLocationMarker } from "@/customHook/useLocationMarker";
-import { Map, Marker, ZoomControl, GeoJson } from "pigeon-maps";
+import { Map, Marker, ZoomControl, GeoJson, GeoJsonFeature } from "pigeon-maps";
 import useWindowDimensions from "@/customHook/useWindowDimension";
 import Button from "@/components/Button";
 import useRoute from "@/customHook/useRoute";
@@ -60,8 +60,10 @@ export default function Home() {
                   geometry: {
                     type: "LineString",
                     coordinates: [
-                      getMarkerAt(route.source - 1),
-                      getMarkerAt(route.destination - 1),
+                      // getMarkerAt(route.source - 1),
+                      // getMarkerAt(route.destination - 1),
+                      [-6.912499537938287, 107.60766124107988],
+                      [-7.12499537938287, 108.60766124107988],
                     ],
                   },
                 };
@@ -78,7 +80,9 @@ export default function Home() {
                 r: "20",
               };
             }}
-          />
+          >
+            {/* <GeoJsonFeature feature={} /> */}
+          </GeoJson>
           {locationMarkers.map((latlng, index) => {
             return (
               <Marker
