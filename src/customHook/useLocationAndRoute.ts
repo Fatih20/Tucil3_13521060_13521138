@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { LatLng } from "leaflet";
-import { Node, Route } from "@/types";
+import { Route } from "@/types";
+import { MapNode } from "@/mapNode";
 export type UseLocationAndRouteHook = {
   locationMarkers: LatLng[];
   addLocationMarker: (arg0: LatLng) => void;
@@ -16,8 +17,9 @@ export type UseLocationAndRouteHook = {
   removeRouteWithNodeIndex: (index: number) => void;
   removeRoute: (index: number) => void;
   getRouteMatrix: () => (string | number)[][];
-  getLocationAsNodeList: () => Node[];
+  getLocationAsNodeList: () => MapNode[];
   resetPath: () => void;
+  parseFile: (fileLines: string[]) => boolean;
 };
 
 export function useLocationAndRoute(
@@ -119,13 +121,9 @@ export function useLocationAndRoute(
     return matrix;
   }
 
-  function getLocationAsNodeList(): Node[] {
+  function getLocationAsNodeList(): MapNode[] {
     return locationMarkers.map((markers, index) => {
-      return {
-        name: index.toString(),
-        latitude: markers.lat,
-        longitude: markers.lng,
-      };
+      return new MapNode(index.toString(), markers.lat, markers.lng);
     });
   }
 
@@ -136,6 +134,49 @@ export function useLocationAndRoute(
         return route;
       }),
     ]);
+  }
+
+  function parseFile(fileLines: string[]): boolean {
+    const nNodes = Number(fileLines[0]);
+
+    let markers = [] as LatLng[];
+    for (let i = 1; i < nNodes + 1; i++) {
+      let lineRead = fileLines[i].split(" ");
+
+      // Return false if the number of element is incorrect
+      if (lineRead.length != 3) return false;
+
+      let name = lineRead[0];
+      let lat = parseFloat(lineRead[1]);
+      let lon = parseFloat(lineRead[2]);
+
+      // Return false if latitude or longitude isn't a number
+      if (isNaN(lat) || isNaN(lon)) return false;
+
+      markers.push(new LatLng(lat, lon));
+    }
+
+    let routes = [] as Route[];
+
+    for (let i = nNodes; i < nNodes * 2; i++) {
+      let trueIndex = i - nNodes;
+      let lineRead = fileLines[i].split(" ");
+
+      if (lineRead.length != nNodes) return false;
+
+      for (let j = 0; j < nNodes; j++) {
+        const weight = parseFloat(lineRead[j]);
+        if (isNaN(weight)) continue;
+
+        const addedRoute = new Route(trueIndex, j, parseFloat(lineRead[j]));
+
+        routes.push(addedRoute);
+      }
+    }
+
+    setLocationMarkers(markers);
+    setRoutes(routes);
+    return true;
   }
 
   return {
@@ -155,5 +196,6 @@ export function useLocationAndRoute(
     resetPath,
     getRouteMatrix,
     getLocationAsNodeList,
+    parseFile,
   } as UseLocationAndRouteHook;
 }
