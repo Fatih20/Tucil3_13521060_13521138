@@ -5,26 +5,23 @@ export default function NewPathForm() {
   const { locationMarkers, addRoute, routes } = useContext(
     LocationAndRouteContext
   );
-  const [selectedFirstNode, setSelectedFirstNode] = useState(-1);
-  const [selectedSecondNode, setSelectedSecondNode] = useState(-1);
+  const [selectedFirstNode, setSelectedFirstNode] = useState(0);
+  const [selectedSecondNode, setSelectedSecondNode] = useState(0);
 
   function handleSubmit() {
     // console.log("Selecteds", selectedFirstNode, selectedSecondNode);
-    if (selectedFirstNode === -1 || selectedSecondNode === -1) {
-      return;
-    }
     addRoute(selectedFirstNode as number, selectedSecondNode as number);
   }
 
   return (
     <form
-      className={`flex flex-row items-center justify-center w-full ${
+      className={`flex flex-row items-center justify-center w-fit gap-2 ${
         locationMarkers.length === 0 ? "hidden" : ""
       }`}
       onSubmit={(e) => handleSubmit}
     >
       <select
-        className="select select-bordered w-full max-w-xs"
+        className="select select-bordered w-fit"
         value={selectedFirstNode}
         onChange={(e) => setSelectedFirstNode(Number(e.target.value))}
       >
@@ -39,7 +36,7 @@ export default function NewPathForm() {
       <select
         value={selectedSecondNode}
         onChange={(e) => setSelectedSecondNode(Number(e.target.value))}
-        className="select select-bordered w-full max-w-xs"
+        className="select select-bordered w-fit"
       >
         {locationMarkers.map((_, index) => {
           return (

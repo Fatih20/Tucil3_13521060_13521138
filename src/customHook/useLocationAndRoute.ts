@@ -54,6 +54,21 @@ export function useLocationAndRoute(
   function addRoute(source: number, destination: number) {
     const weight = getMarkerAt(source).distanceTo(getMarkerAt(destination));
     const addedRoute: Route = { source, destination, weight };
+
+    // Prevent adding route to itself
+    if (source === destination) {
+      return;
+    }
+
+    // Prevent adding existing routes
+    if (
+      routes.some(
+        (route) => route.source == source && route.destination == destination
+      )
+    ) {
+      return;
+    }
+
     setRoutes([...routes, addedRoute]);
   }
 
