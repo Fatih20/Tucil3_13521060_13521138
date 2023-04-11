@@ -90,7 +90,7 @@ class AdjacencyList implements GraphSearching {
         if(currentNode.index == destNode) {
             let path = new Array<MapNode>();
             do {
-                path.push(this.list[currentNode.index][0]);
+                path.push(this.list[currentNode.index][0].clone());
             } while(!currentNode.isRoot);
             return path;
         }
@@ -100,6 +100,42 @@ class AdjacencyList implements GraphSearching {
     }
 
     AStar(startNode: number, destNode: number): MapNode[] {
+        /* Pre-process heuristic values (straight line distance of nodes to destNode) */
+        var SLD: number[] = new Array<number>(this.list.length);
+        for(let i = 0; i < this.list.length; i++) {
+            SLD[i] = this.list[i][0].distanceTo(this.list[destNode][0]);
+        }
+
+        /* AStar Algorithm */
+        const searchTree: TreeNode = new TreeNode(startNode, SLD[startNode]); // create search tree root
+        var queue: PriorityQueue<TreeNode> = new PriorityQueue<TreeNode>(compareTreeNode, [searchTree]); // initialize search queue, start with root
         
+        var isVisited: boolean[] = new Array<boolean>(this.list.length);
+        isVisited.map(() => false); // initialize values with false (not visited)
+
+        let currentNode: TreeNode;
+        do {
+            currentNode = queue.dequeue();
+
+            if(!isVisited[currentNode.index]) {
+                isVisited[currentNode.index] = true;
+                (this.list[currentNode.index][1]).forEach(neighbor => {
+                    let nextNode: TreeNode = new TreeNode(neighbor.index, (currentNode.totalWeight + neighbor.weight + SLD[neighbor.index]), currentNode);
+                    queue.enqueue(nextNode);
+                });
+            }
+        } while (!queue.isEmpty && currentNode.index != destNode);
+
+        if(currentNode.index == destNode) {
+            let path = new Array<MapNode>();
+            do {
+                path.push(this.list[currentNode.index][0].clone());
+            } while(!currentNode.isRoot);
+            return path;
+        }
+        else {
+            throw "No path found :(";
+        }
+
     }
 }
