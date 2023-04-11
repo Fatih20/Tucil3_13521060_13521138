@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LatLng } from "../types";
+import { LatLng } from "leaflet";
 
 export function useLocationMarker(initialValues: LatLng[]) {
   const [locationMarkers, setLocationMarkers] = useState(initialValues);
@@ -16,7 +16,7 @@ export function useLocationMarker(initialValues: LatLng[]) {
     if (index < 0) {
       return;
     }
-    setLocationMarkers([...locationMarkers.splice(index, 1)]);
+    setLocationMarkers(locationMarkers.filter((_, i) => i != index));
   }
 
   function getMarkerAt(index: number): LatLng {
@@ -26,7 +26,7 @@ export function useLocationMarker(initialValues: LatLng[]) {
   function isMarkerInHere(detectedMarker: LatLng) {
     return !locationMarkers.every(
       (marker) =>
-        marker[0] != detectedMarker[0] && marker[1] != detectedMarker[1]
+        marker.lat != detectedMarker.lat && marker.lng != detectedMarker.lng
     );
   }
 

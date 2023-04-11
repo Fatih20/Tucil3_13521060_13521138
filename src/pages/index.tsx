@@ -32,16 +32,19 @@ export default function Home() {
   return (
     <>
       <main className="flex h-screen flex-col items-center justify-between w-screen relative">
-        <div className="absolute inset-0 w-full h-full flex flex-col items-start justify-end z-50 pointer-events-none box-border p-2">
-          <div className="flex flex-row items-center justify-start">
+        <MapComponent
+          removeLocationMarker={removeLocationMarker}
+          addLocationMarker={addLocationMarker}
+          locationMarkers={locationMarkers}
+        />
+        <div className="w-full flex flex-col items-start justify-end z-[100] pointer-events-none box-border p-2">
+          <div className="flex flex-row items-center justify-start relative z-50">
             <div className="flex flex-col items-center justify-center gap-4">
               <Button onClick={resetMarker}>Reset Marker</Button>
               <Button onClick={resetRoutes}>Reset Routes</Button>
-              <Button onClick={() => addRoute(1, 2, 50)}>Reset Routes</Button>
             </div>
           </div>
         </div>
-        <MapComponent />
       </main>
     </>
   );
