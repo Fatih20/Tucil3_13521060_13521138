@@ -74,8 +74,9 @@ export function useLocationAndRoute(
     );
 
     if (indexOfEqualSD != -1) {
-      addedRoute.makeTwoWay();
-      removeRoute(indexOfEqualSD);
+      routes[indexOfEqualSD].makeTwoWay();
+      setRoutes([...routes]);
+      return;
     }
 
     setRoutes([...routes, addedRoute]);
