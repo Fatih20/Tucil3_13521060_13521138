@@ -3,6 +3,7 @@ export class Route {
   private destination: number;
   private weight: number;
   private twoWay: boolean;
+  private partOfPath: boolean;
 
   constructor(
     source: number,
@@ -14,6 +15,7 @@ export class Route {
     this.destination = destination;
     this.weight = weight;
     this.twoWay = twoWay;
+    this.partOfPath = false;
   }
 
   public getSource(): number {
@@ -22,6 +24,10 @@ export class Route {
 
   public isTwoWay(): boolean {
     return this.twoWay;
+  }
+
+  public isPartOfPath() {
+    return this.partOfPath;
   }
 
   public getDestination(): number {
@@ -40,6 +46,14 @@ export class Route {
 
   public makeTwoWay() {
     this.twoWay = true;
+  }
+
+  public makeNotPartOfPath() {
+    this.partOfPath = false;
+  }
+
+  public makePartOfPath() {
+    this.partOfPath = true;
   }
 
   public isEqual(r: Route): boolean {

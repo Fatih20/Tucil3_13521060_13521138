@@ -17,6 +17,7 @@ export type UseLocationAndRouteHook = {
   removeRoute: (index: number) => void;
   getRouteMatrix: () => (string | number)[][];
   getLocationAsNodeList: () => Node[];
+  resetPath: () => void;
 };
 
 export function useLocationAndRoute(
@@ -127,6 +128,15 @@ export function useLocationAndRoute(
     });
   }
 
+  function resetPath() {
+    setRoutes([
+      ...routes.map((route) => {
+        route.makeNotPartOfPath();
+        return route;
+      }),
+    ]);
+  }
+
   return {
     locationMarkers,
     addLocationMarker,
@@ -141,6 +151,8 @@ export function useLocationAndRoute(
     resetRoutes,
     removeRouteWithNodeIndex,
     removeRoute,
+    resetPath,
+    getRouteMatrix,
     getLocationAsNodeList,
   } as UseLocationAndRouteHook;
 }
