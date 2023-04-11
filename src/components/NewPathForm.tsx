@@ -1,8 +1,9 @@
-import { RouteContext, LocationMarkerContext } from "@/pages";
+import { LocationAndRouteContext } from "@/pages";
 import { useContext } from "react";
 
 export default function NewPathForm() {
-  const { locationMarkers } = useContext(LocationMarkerContext);
-  const { addRoute, routes } = useContext(RouteContext);
+  const { locationMarkers, addRoute, routes } = useContext(
+    LocationAndRouteContext
+  );
   return <form onSubmit={() => {}}></form>;
 }
