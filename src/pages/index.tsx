@@ -1,22 +1,23 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import { useLocationMarker } from "@/customHook/useLocationMarker";
+import {
+  useLocationMarker,
+  UseLocationMarkerHook,
+} from "@/customHook/useLocationMarker";
 import useWindowDimensions from "@/customHook/useWindowDimension";
 import Button from "@/components/Button";
 import useRoute from "@/customHook/useRoute";
 import dynamic from "next/dynamic";
+import { createContext } from "react";
+
+export const LocationMarkerContext = createContext<UseLocationMarkerHook>(
+  {} as UseLocationMarkerHook
+);
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const {
-    locationMarkers,
-    addLocationMarker,
-    removeLocationMarker,
-    getMarkerAt,
-    isMarkerInHere,
-    resetMarker,
-  } = useLocationMarker([]);
+  const locationMarkerHook = useLocationMarker([]);
 
   const { routes, addRoute, removeRouteWithNodeIndex, resetRoutes } = useRoute([
     // { destination: 1, source: 2, weight: 50 },
@@ -31,21 +32,21 @@ export default function Home() {
 
   return (
     <>
-      <main className="flex h-screen flex-col items-center justify-between w-screen relative">
-        <MapComponent
-          removeLocationMarker={removeLocationMarker}
-          addLocationMarker={addLocationMarker}
-          locationMarkers={locationMarkers}
-        />
-        <div className="w-full flex flex-col items-start justify-end z-[100] pointer-events-none box-border p-2">
-          <div className="flex flex-row items-center justify-start relative z-50">
-            <div className="flex flex-col items-center justify-center gap-4">
-              <Button onClick={resetMarker}>Reset Marker</Button>
-              <Button onClick={resetRoutes}>Reset Routes</Button>
+      <LocationMarkerContext.Provider value={locationMarkerHook}>
+        <main className="flex h-screen flex-col items-center justify-between w-screen relative">
+          <MapComponent />
+          <div className="w-full flex flex-col items-start justify-end z-[100] pointer-events-none box-border p-2">
+            <div className="flex flex-row items-center justify-start relative z-50">
+              <div className="flex flex-col items-center justify-center gap-4">
+                <Button onClick={locationMarkerHook.resetMarker}>
+                  Reset Marker
+                </Button>
+                <Button onClick={resetRoutes}>Reset Routes</Button>
+              </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </LocationMarkerContext.Provider>
     </>
   );
 }

@@ -1,5 +1,14 @@
 import { useState } from "react";
 import { LatLng } from "leaflet";
+export type UseLocationMarkerHook = {
+  locationMarkers: LatLng[];
+  addLocationMarker: (arg0: LatLng) => void;
+  addLocationMarkers: (arg1: LatLng[]) => void;
+  removeLocationMarker: (index: number) => void;
+  getMarkerAt: (index: number) => LatLng;
+  isMarkerInHere: (arg0: LatLng) => boolean;
+  resetMarker: () => void;
+};
 
 export function useLocationMarker(initialValues: LatLng[]) {
   const [locationMarkers, setLocationMarkers] = useState(initialValues);
@@ -42,5 +51,5 @@ export function useLocationMarker(initialValues: LatLng[]) {
     getMarkerAt,
     isMarkerInHere,
     resetMarker,
-  };
+  } as UseLocationMarkerHook;
 }

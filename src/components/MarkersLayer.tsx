@@ -2,16 +2,12 @@ import { LatLng } from "leaflet";
 import { Marker, Popup, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Button from "./Button";
+import { LocationMarkerContext } from "@/pages";
+import { useContext } from "react";
 
-export default function MarkersLayer({
-  addLocationMarker,
-  locationMarkers,
-  removeLocationMarker,
-}: {
-  addLocationMarker: (latLng: LatLng) => void;
-  locationMarkers: LatLng[];
-  removeLocationMarker: (index: number) => void;
-}) {
+export default function MarkersLayer({}: {}) {
+  const { addLocationMarker, locationMarkers, removeLocationMarker } =
+    useContext(LocationMarkerContext);
   const mapEvent = useMapEvents({
     click({ latlng }) {
       addLocationMarker(latlng);
