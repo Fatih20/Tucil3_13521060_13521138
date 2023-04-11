@@ -122,11 +122,13 @@ export class TreeNode {
     private _index: number;
     private _totalWeight: number;
     private _parent: TreeNode | null;
+    private _heuristic: number;
     
-    constructor(index: number, totalWeight: number = 0, parent: TreeNode | null = null) {
+    constructor(index: number, totalWeight: number = 0, parent: TreeNode | null = null, heuristic: number = 0) {
         this._index = index;
         this._totalWeight = totalWeight;
         this._parent = parent;
+        this._heuristic = heuristic;
     }
 
     get totalWeight(): number {
@@ -136,6 +138,10 @@ export class TreeNode {
     /* probably not needed */
     set totalWeight(totalWeight: number) {
         this._totalWeight = totalWeight;
+    }
+
+    get heuristic(): number {
+        return this._heuristic;
     }
 
     get index(): number {
@@ -152,11 +158,13 @@ export class TreeNode {
 }
 
 export const compareTreeNode: ICompare<TreeNode> = (a: TreeNode, b: TreeNode) => {
-    // if(a.totalWeight < b.totalWeight) {
-    //     return 1;
-    // }
-    // if(a.totalWeight > b.totalWeight) {
-    //     return -1;
-    // }
+    let aValue = a.totalWeight + a.heuristic;
+    let bValue = b.totalWeight + b.heuristic;
+    if(aValue < bValue) {
+        return 1;
+    }
+    if(aValue > bValue) {
+        return -1;
+    }
     return a.totalWeight < b.totalWeight ? 1 : -1;
 }
