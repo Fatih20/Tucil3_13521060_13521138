@@ -28,16 +28,14 @@ export interface GraphSearching {
 export class AdjacencyList implements GraphSearching {
     private list: [node: MapNode, neighbors: AdjacentNode[]][];
 
-    constructor(nodes: [string, number, number][], graph: number[][]) {
+    constructor(nodes: MapNode[], graph: number[][]) {
         const nNodes = nodes.length;
         this.list = new Array<[MapNode, AdjacentNode[]]>(nNodes);
         for (let i = 0; i < nNodes; i++) {
             /* insert node information */
-            let node = nodes[i];
-            let elmt = this.list[i]
-            elmt[0] = new MapNode(node[0], node[1], node[2]);
+            this.list[i][0] = nodes[i].clone();
 
-            elmt[i] = new Array<AdjacentNode>();
+            this.list[i][1] = new Array<AdjacentNode>();
             /* insert neighboring nodes */
             for(let j = 0; j < nNodes; j++) {
                 let weight = graph[i][j];
@@ -86,9 +84,9 @@ export class AdjacencyList implements GraphSearching {
 
     UCS(startNode: number, destNode: number): MapNode[] {
         const searchTree: TreeNode = new TreeNode(startNode); // create search tree root
-        var queue: PriorityQueue<TreeNode> = new PriorityQueue<TreeNode>(compareTreeNode, [searchTree]); // initialize search queue, start with root
+        let queue: PriorityQueue<TreeNode> = new PriorityQueue<TreeNode>(compareTreeNode, [searchTree]); // initialize search queue, start with root
         
-        var isVisited: boolean[] = new Array<boolean>(this.list.length);
+        let isVisited: boolean[] = new Array<boolean>(this.list.length);
         isVisited.map(() => false); // initialize values with false (not visited)
 
         let currentNode: TreeNode;
@@ -118,16 +116,16 @@ export class AdjacencyList implements GraphSearching {
 
     AStar(startNode: number, destNode: number): MapNode[] {
         /* Pre-process heuristic values (straight line distance of nodes to destNode) */
-        var SLD: number[] = new Array<number>(this.list.length);
+        let SLD: number[] = new Array<number>(this.list.length);
         for(let i = 0; i < this.list.length; i++) {
             SLD[i] = this.list[i][0].distanceTo(this.list[destNode][0]);
         }
 
         /* AStar Algorithm */
         const searchTree: TreeNode = new TreeNode(startNode, SLD[startNode]); // create search tree root
-        var queue: PriorityQueue<TreeNode> = new PriorityQueue<TreeNode>(compareTreeNode, [searchTree]); // initialize search queue, start with root
+        let queue: PriorityQueue<TreeNode> = new PriorityQueue<TreeNode>(compareTreeNode, [searchTree]); // initialize search queue, start with root
         
-        var isVisited: boolean[] = new Array<boolean>(this.list.length);
+        let isVisited: boolean[] = new Array<boolean>(this.list.length);
         isVisited.map(() => false); // initialize values with false (not visited)
 
         let currentNode: TreeNode;
