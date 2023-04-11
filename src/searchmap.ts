@@ -110,7 +110,7 @@ export class AdjacencyList implements GraphSearching {
             return path;
         }
         else {
-            throw "No path found :(";
+            throw new Error('No path from start to destination found');
         }
     }
 
@@ -149,7 +149,7 @@ export class AdjacencyList implements GraphSearching {
             return path;
         }
         else {
-            throw "No path found :(";
+            throw new Error('No path from start to destination found');
         }
 
     }

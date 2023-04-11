@@ -1,12 +1,35 @@
 import { open } from 'fs/promises'; 
 import { MapNode } from './mapnode';
 
+/**
+ * Parses input file describing graph to be processed
+ * 
+ * @example
+ * File format:
+ * 
+ * N - number of nodes
+ * 
+ * name1 lat1 lon1
+ * ...
+ * nameN latN lonN
+ * 
+ * weight_1_1 ... weight_1_N
+ * ...
+ * weight_N_1 ... weight_N_N
+ * 
+ * @param path filesystem path
+ * @returns tuple of MapNode(s) and adjacency matrix representing graph
+ */
 export async function fileGraphParse(path: string): Promise<[MapNode[], number[][]]> {
     const file = await open(path, 'utf-8');
 
     const lines = file.readLines();
     
     /* start parsing */
+    // for await (const line of file.readLines()) {
+    //     console.log(line);
+    // }
+
     /* first line: number of nodes for input */
     const nNodes = Number(lines.line);
 
@@ -31,7 +54,7 @@ export async function fileGraphParse(path: string): Promise<[MapNode[], number[]
         if (lineRead.length != nNodes) throw new Error('Invalid argument amount at line ' + (i+nNodes+2));
 
         for (let j = 0; j < nNodes; j++) {
-            graph[i][j] = parseFloat(lineRead[j])
+            graph[i][j] = parseFloat(lineRead[j]);
         }
     }
 
