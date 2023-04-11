@@ -82,6 +82,10 @@ export class MapNode {
         return this._coordinate.coordinate;
     }
 
+    public distanceTo(other: MapNode): number {
+        return this._coordinate.distanceTo(other._coordinate);
+    }
+
     public clone(): MapNode {
         let cloned = new MapNode(this._name, this._coordinate.latitude, this._coordinate.longitude);
         return cloned;
