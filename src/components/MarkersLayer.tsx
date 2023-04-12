@@ -1,8 +1,8 @@
 import L, { LatLng } from "leaflet";
-import { Marker, Popup, useMapEvents } from "react-leaflet";
+import { Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { LocationAndRouteContext } from "@/components/AppCore";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { LocationMarker } from "@/types";
 
 export default function MarkersLayer({}: {}) {
@@ -19,6 +19,18 @@ export default function MarkersLayer({}: {}) {
       );
     },
   });
+
+  const map = useMap();
+
+  useEffect(() => {
+    if (locationMarkers.length > 1) {
+      map.fitBounds(
+        locationMarkers.map((lm) => {
+          return [lm.lat, lm.lng];
+        })
+      );
+    }
+  }, [locationMarkers, map]);
 
   const customIcon = new L.Icon({
     iconUrl: "/locationIcon.svg",
