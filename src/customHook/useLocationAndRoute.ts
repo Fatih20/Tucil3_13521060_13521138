@@ -109,11 +109,14 @@ export function useLocationAndRoute(
 
   function getRouteMatrix(): (string | number)[][] {
     const numberOfMarker = locationMarkers.length;
-    const matrix = new Array(numberOfMarker).fill(
-      new Array(numberOfMarker).fill("-")
-    );
+    const matrix = new Array(numberOfMarker)
+      .fill(undefined)
+      .map(() => Array(numberOfMarker).fill("-"));
+
+    console.log(matrix);
 
     routes.forEach((route) => {
+      console.log(route);
       matrix[route.getSource()][route.getDestination()] = route.getWeight();
       if (route.isTwoWay()) {
         matrix[route.getDestination()][route.getSource()] = route.getWeight();
