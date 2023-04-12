@@ -1,6 +1,6 @@
 import {
-  LocationAndRouteContext,
   useLocationAndRouteContext,
+  useSolutionContext,
 } from "@/components/AppCore";
 import { useState } from "react";
 import Image from "next/image";
@@ -8,12 +8,14 @@ import Image from "next/image";
 export default function NewPathForm() {
   const { locationMarkers, addRoute, getMarkerAt } =
     useLocationAndRouteContext();
+  const { resetPathSequence } = useSolutionContext();
   const [selectedFirstNode, setSelectedFirstNode] = useState(0);
   const [selectedSecondNode, setSelectedSecondNode] = useState(0);
   const [firstToSecond, setFirstToSecond] = useState(true);
   const [isTwoWay, setIsTwoWay] = useState(false);
 
   function handleSubmit() {
+    resetPathSequence();
     if (firstToSecond) {
       addRoute(selectedFirstNode, selectedSecondNode, isTwoWay);
     } else {

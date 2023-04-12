@@ -35,7 +35,7 @@ export default function SearchBar() {
       onSubmit={(e) => handleSubmit}
     >
       <h2 className="text-lg font-bold text-black text-center self-center w-full">
-        Search For A Path
+        Search For a Path
       </h2>
       <div className="flex flex-row items-center justify-center gap-2">
         <select
