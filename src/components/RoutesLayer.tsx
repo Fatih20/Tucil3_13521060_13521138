@@ -41,7 +41,8 @@ export default function RoutesLayer({}: {}) {
                 <p className="text-black text-base">{route.getWeight()}</p>
                 <button
                   className="btn btn-primary"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     removeRoute(index);
                   }}
                 >
