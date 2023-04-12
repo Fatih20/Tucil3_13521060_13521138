@@ -18,7 +18,7 @@ export const LocationAndRouteContext = createContext<UseLocationAndRouteHook>(
 
 export default function AppCore() {
   const locationAndRouteHook = useLocationAndRoute([], []);
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const { width, height } = useWindowDimensions();
 
   const MapComponent = dynamic(() => import("@/components/MapComponent"), {
@@ -46,14 +46,14 @@ export default function AppCore() {
               </button>
             </div>
             <div className="flex-grow"></div>
-            <div className="flex flex-row items-start justify-start w-full pointer-events-auto gap-4 bg-white box-border rounded-md p-4 shadow-lg shadow-black/50 mb-5">
-              <FileInput />
-              <NewPathForm />
-              <SearchBar />
-              <ResultBar pathSequence={[1, 2, 3, 4, 5]} />
-            </div>
           </div>
           <MapComponent />
+          <div className="flex flex-row items-start justify-start w-full pointer-events-auto gap-4 bg-white box-border  p-4 shadow-black/50">
+            <FileInput />
+            <NewPathForm />
+            <SearchBar />
+            <ResultBar pathSequence={[1, 2, 3, 4, 5]} />
+          </div>
         </main>
       </LocationAndRouteContext.Provider>
     </>

@@ -6,7 +6,7 @@ export default function ResultBar({
   const pathText = pathSequence?.join(" → ");
   return (
     <div
-      className={`flex flex-col items-center justify-center text-center text-base text-black w-fit ${
+      className={`flex flex-col items-center justify-center text-center text-base text-black w-full ${
         pathSequence.length === 0 ? "hidden" : ""
       }`}
     >
