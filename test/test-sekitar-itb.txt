@@ -1,0 +1,17 @@
+8
+gane-tamansari -6.893740 107.608433
+monumenKubus -6.893181 107.610449
+gane-ciungwanara -6.893567 107.611950
+tamansari-gelapnyawang -6.894867 107.608792
+ciungwanara-gelapnyawang -6.894740 107.611705
+gane-juanda -6.893732 107.612930
+juanda-dayangSumbi -6.887400 107.613506
+gerbangBelakangITB -6.887371 107.611450
+0 230 - 130 - - - 1000
+230 0 170 - - - - -
+- 170 0 - 130 110 - -
+130 - - 0 300 - - -
+- - 130 300 0 - - -
+- - 110 - - 0 700 -
+- - - - - 700 0 230
+1000 - - - - - 230 0
