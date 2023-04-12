@@ -175,4 +175,12 @@ export class AdjacencyList implements GraphSearching {
       throw new Error("No path from start to destination found");
     }
   }
+
+  static computeEdges(nodesList: number[]) {
+    let edgesList: [number, number][] = new Array<[number, number]>(nodesList.length-1);
+    for(let i = 0; i < nodesList.length-1; i++) {
+      edgesList[i] = [nodesList[i], nodesList[i+1]];
+    }
+  }
+  
 }
