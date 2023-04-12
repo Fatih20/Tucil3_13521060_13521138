@@ -7,19 +7,27 @@ import {
 import Image from "next/image";
 
 export default function SearchBar() {
-  const { locationMarkers, getMarkerAt } = useLocationAndRouteContext();
+  const {
+    locationMarkers,
+    getMarkerAt,
+    getLocationAsNodeList,
+    getRouteMatrix,
+  } = useLocationAndRouteContext();
   const {
     setSourceMarkerIndex,
     setDestinationMarkerIndex,
     sourceMarkerIndex,
     destinationMarkerIndex,
     isSourceAndDestinationSame,
+    search,
   } = useSolutionContext();
   // const [sourceNodeIndex, setSourceNodeIndex] = useState(0);
   // const [destinationNodeIndex, setDestinationNodeIndex] = useState(0);
   const [firstToSecond, setFirstToSecond] = useState(true);
   const [searchMethod, setSearchMethod] = useState("ucs");
-  function handleSubmit() {}
+  function handleSubmit() {
+    search(getLocationAsNodeList(), getRouteMatrix(), searchMethod !== "ucs");
+  }
 
   return (
     <form

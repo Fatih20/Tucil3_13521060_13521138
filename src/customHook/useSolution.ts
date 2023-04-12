@@ -11,7 +11,11 @@ export type UseSolution = {
   isSourceIndex: (arg0: number) => boolean;
   isDestinationIndex: (arg0: number) => boolean;
   pathSequence: number[];
-  search: (nodes: MapNode[], graph: number[][], isAStar: boolean) => void;
+  search: (
+    nodes: MapNode[],
+    graph: (number | string)[][],
+    isAStar: boolean
+  ) => void;
   resetPathSequence: () => void;
   resetSourceAndDest: () => void;
   isSourceAndDestinationSame: () => boolean;
@@ -40,7 +44,11 @@ export function useSolution() {
     return index === destinationMarkerIndex;
   }
 
-  function search(nodes: MapNode[], graph: number[][], isAStar: boolean) {
+  function search(
+    nodes: MapNode[],
+    graph: (number | string)[][],
+    isAStar: boolean
+  ) {
     const aL = new AdjacencyList(nodes, graph);
     if (sourceMarkerIndex === null || destinationMarkerIndex === null) {
       return;

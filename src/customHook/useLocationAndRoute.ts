@@ -107,7 +107,7 @@ export function useLocationAndRoute(
     setRoutes([]);
   }
 
-  function getRouteMatrix() {
+  function getRouteMatrix(): (string | number)[][] {
     const numberOfRoutes = routes.length;
     const matrix = new Array(numberOfRoutes).fill(
       new Array(numberOfRoutes).fill("-")
@@ -131,7 +131,6 @@ export function useLocationAndRoute(
   function resetPath() {
     setRoutes([
       ...routes.map((route) => {
-        route.makeNotPartOfPath();
         return route;
       }),
     ]);

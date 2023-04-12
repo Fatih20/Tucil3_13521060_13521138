@@ -28,7 +28,7 @@ export interface GraphSearching {
 export class AdjacencyList implements GraphSearching {
   private list: [node: MapNode, neighbors: AdjacentNode[]][];
 
-  constructor(nodes: MapNode[], graph: number[][]) {
+  constructor(nodes: MapNode[], graph: (number | string)[][]) {
     const nNodes = nodes.length;
     this.list = new Array<[MapNode, AdjacentNode[]]>(nNodes);
     for (let i = 0; i < nNodes; i++) {
@@ -39,7 +39,7 @@ export class AdjacencyList implements GraphSearching {
       /* insert neighboring nodes */
       for (let j = 0; j < nNodes; j++) {
         let weight = graph[i][j];
-        if (!isNaN(weight)) {
+        if (!Number.isNaN(weight) && typeof weight != "string") {
           let newNeighbor = new AdjacentNode(j, weight);
           this.addNeighbor(i, newNeighbor);
         }
