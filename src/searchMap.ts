@@ -29,8 +29,12 @@ export class AdjacencyList implements GraphSearching {
   private list: [node: MapNode, neighbors: AdjacentNode[]][];
 
   constructor(nodes: MapNode[], graph: (number | string)[][]) {
+    console.log(graph);
     const nNodes = nodes.length;
-    this.list = new Array<[MapNode, AdjacentNode[]]>(nNodes);
+    this.list = new Array<[MapNode, AdjacentNode[]]>(nNodes).fill([
+      new MapNode("", 0, 0),
+      [],
+    ]);
     for (let i = 0; i < nNodes; i++) {
       /* insert node information */
       this.list[i][0] = nodes[i].clone();
@@ -38,6 +42,7 @@ export class AdjacencyList implements GraphSearching {
       this.list[i][1] = new Array<AdjacentNode>();
       /* insert neighboring nodes */
       for (let j = 0; j < nNodes; j++) {
+        console.log(i, j, graph[i]);
         let weight = graph[i][j];
         if (!Number.isNaN(weight) && typeof weight != "string") {
           let newNeighbor = new AdjacentNode(j, weight);
@@ -109,7 +114,7 @@ export class AdjacencyList implements GraphSearching {
           queue.enqueue(nextNode);
         });
       }
-    } while (!queue.isEmpty);
+    } while (!queue.isEmpty());
 
     if (currentNode.index == destNode) {
       let path = new Array<number>();
@@ -119,6 +124,7 @@ export class AdjacencyList implements GraphSearching {
         traversalNode = traversalNode.parent;
       } while (traversalNode != null);
       path.reverse();
+      console.log(path);
       return path;
     } else {
       throw new Error("No path from start to destination found");
@@ -160,7 +166,7 @@ export class AdjacencyList implements GraphSearching {
           queue.enqueue(nextNode);
         });
       }
-    } while (!queue.isEmpty);
+    } while (!queue.isEmpty());
 
     if (currentNode.index == destNode) {
       let path = new Array<number>();

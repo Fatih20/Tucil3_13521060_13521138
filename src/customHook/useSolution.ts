@@ -1,7 +1,7 @@
 import { MapNode } from "@/mapNode";
 import { AdjacencyList } from "@/searchMap";
 import { Route } from "@/types";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export type UseSolution = {
   sourceMarkerIndex: number | null;
@@ -36,6 +36,10 @@ export function useSolution() {
     [pathSequence]
   );
 
+  useEffect(() => {
+    console.log(pathSequence);
+  }, [pathSequence]);
+
   function isSourceIndex(index: number) {
     return index === sourceMarkerIndex;
   }
@@ -54,9 +58,9 @@ export function useSolution() {
       return;
     }
     if (isAStar) {
-      setPathSequence(aL.AStar(sourceMarkerIndex, destinationMarkerIndex));
+      setPathSequence([...aL.AStar(sourceMarkerIndex, destinationMarkerIndex)]);
     } else {
-      setPathSequence(aL.UCS(sourceMarkerIndex, destinationMarkerIndex));
+      setPathSequence([...aL.UCS(sourceMarkerIndex, destinationMarkerIndex)]);
     }
   }
 

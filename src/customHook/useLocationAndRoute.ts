@@ -108,9 +108,10 @@ export function useLocationAndRoute(
   }
 
   function getRouteMatrix(): (string | number)[][] {
-    const numberOfRoutes = routes.length;
-    const matrix = new Array(numberOfRoutes).fill(
-      new Array(numberOfRoutes).fill("-")
+    const numberOfMarker = locationMarkers.length;
+    console.log(numberOfMarker);
+    const matrix = new Array(numberOfMarker).fill(
+      new Array(numberOfMarker).fill("-")
     );
 
     routes.forEach((route) => {

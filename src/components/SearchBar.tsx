@@ -21,8 +21,6 @@ export default function SearchBar() {
     isSourceAndDestinationSame,
     search,
   } = useSolutionContext();
-  // const [sourceNodeIndex, setSourceNodeIndex] = useState(0);
-  // const [destinationNodeIndex, setDestinationNodeIndex] = useState(0);
   const [firstToSecond, setFirstToSecond] = useState(true);
   const [searchMethod, setSearchMethod] = useState("ucs");
   function handleSubmit() {
