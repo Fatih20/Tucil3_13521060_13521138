@@ -11,6 +11,7 @@ import NewPathForm from "@/components/NewPathForm";
 import FileInput from "@/components/FileInput";
 import SearchBar from "./SearchBar";
 import ResultBar from "./ResultBar";
+import HoverContainer from "./HoverContainer";
 
 export const LocationAndRouteContext = createContext<UseLocationAndRouteHook>(
   {} as UseLocationAndRouteHook
@@ -18,7 +19,7 @@ export const LocationAndRouteContext = createContext<UseLocationAndRouteHook>(
 
 export default function AppCore() {
   const locationAndRouteHook = useLocationAndRoute([], []);
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const { width, height } = useWindowDimensions();
 
   const MapComponent = dynamic(() => import("@/components/MapComponent"), {
@@ -46,11 +47,25 @@ export default function AppCore() {
               </button>
             </div>
             <div className="flex-grow"></div>
-            <div className="flex flex-row items-start justify-start w-full pointer-events-auto gap-4 bg-white box-border rounded-md p-4 shadow-lg shadow-black/50 mb-5">
-              <FileInput />
-              <NewPathForm />
-              <SearchBar />
-              <ResultBar pathSequence={[1, 2, 3, 4, 5]} />
+            <div className="flex flex-row items-start justify-start gap-4 h-fit">
+              <HoverContainer placeholder="File Input">
+                <FileInput />
+              </HoverContainer>
+              <HoverContainer
+                show={locationAndRouteHook.locationMarkers.length > 1}
+                placeholder="Add Route"
+              >
+                <NewPathForm />
+              </HoverContainer>
+              <HoverContainer
+                show={locationAndRouteHook.locationMarkers.length > 1}
+                placeholder="Search for A Path"
+              >
+                <SearchBar />
+              </HoverContainer>
+              <HoverContainer placeholder="Search Result">
+                <ResultBar />
+              </HoverContainer>
             </div>
           </div>
           <MapComponent />
