@@ -53,10 +53,16 @@ export function useSolution() {
     if (sourceMarkerIndex === -1 || destinationMarkerIndex === -1) {
       return;
     }
-    if (isAStar) {
-      setPathSequence([...aL.AStar(sourceMarkerIndex, destinationMarkerIndex)]);
-    } else {
-      setPathSequence([...aL.UCS(sourceMarkerIndex, destinationMarkerIndex)]);
+    try {
+      if (isAStar) {
+        setPathSequence([
+          ...aL.AStar(sourceMarkerIndex, destinationMarkerIndex),
+        ]);
+      } else {
+        setPathSequence([...aL.UCS(sourceMarkerIndex, destinationMarkerIndex)]);
+      }
+    } catch (e) {
+      setPathSequence([-1]);
     }
   }
 
