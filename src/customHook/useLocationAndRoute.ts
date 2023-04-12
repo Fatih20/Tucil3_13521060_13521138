@@ -168,7 +168,9 @@ export function useLocationAndRoute(
 
       for (let j = trueIndex; j < nNodes; j++) {
         const weight1 = parseFloat(fileLines[secondI].split(" ")[j]);
-        const weight2 = parseFloat(fileLines[j].split(" ")[secondI]);
+        const weight2 = parseFloat(
+          fileLines[j + nNodes + 1].split(" ")[trueIndex]
+        );
 
         // Jika kedua nilai bukan angka, lewati loop
         if (isNaN(weight1) && isNaN(weight2)) continue;
