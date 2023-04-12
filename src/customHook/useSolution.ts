@@ -33,10 +33,6 @@ export function useSolution() {
     [pathSequence]
   );
 
-  useEffect(() => {
-    // console.log(pathSequence);
-  }, [pathSequence]);
-
   function isSourceIndex(index: number) {
     return index === sourceMarkerIndex;
   }

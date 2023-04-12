@@ -113,10 +113,7 @@ export function useLocationAndRoute(
       .fill(undefined)
       .map(() => Array(numberOfMarker).fill("-"));
 
-    console.log(matrix);
-
     routes.forEach((route) => {
-      console.log(route);
       matrix[route.getSource()][route.getDestination()] = route.getWeight();
       if (route.isTwoWay()) {
         matrix[route.getDestination()][route.getSource()] = route.getWeight();
