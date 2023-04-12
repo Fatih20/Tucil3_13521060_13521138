@@ -4,7 +4,6 @@ import {
   UseLocationAndRouteHook,
   useLocationAndRoute,
 } from "@/customHook/useLocationAndRoute";
-import useWindowDimensions from "@/customHook/useWindowDimension";
 import dynamic from "next/dynamic";
 import { createContext, useContext, useMemo, useState } from "react";
 import NewPathForm from "@/components/NewPathForm";
@@ -30,7 +29,6 @@ export function useSolutionContext() {
 export default function AppCore() {
   const locationAndRouteHook = useLocationAndRoute([], []);
   const solutionHook = useSolution();
-  const { width, height } = useWindowDimensions();
 
   const MapComponent = useMemo(
     () =>
