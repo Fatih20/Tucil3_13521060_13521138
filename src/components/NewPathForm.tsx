@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import Image from "next/image";
 
 export default function NewPathForm() {
-  const { locationMarkers, addRoute, routes } = useContext(
+  const { locationMarkers, addRoute, getMarkerAt } = useContext(
     LocationAndRouteContext
   );
   const [selectedFirstNode, setSelectedFirstNode] = useState(0);
@@ -22,55 +22,60 @@ export default function NewPathForm() {
 
   return (
     <form
-      className={`flex flex-row items-center justify-center w-fit gap-2 ${
-        locationMarkers.length === 0 ? "hidden" : ""
+      className={`flex flex-col items-start justify-center w-fit gap-2 ${
+        locationMarkers.length <= 1 ? "hidden" : ""
       }`}
       onSubmit={(e) => handleSubmit}
     >
-      <select
-        className="select select-bordered w-fit"
-        value={selectedFirstNode}
-        onChange={(e) => setSelectedFirstNode(Number(e.target.value))}
-      >
-        {locationMarkers.map((_, index) => {
-          return (
-            <option key={index} value={index}>
-              {index}
-            </option>
-          );
-        })}
-      </select>
-      <button
-        className=""
-        onClick={() => setFirstToSecond((prev) => !prev)}
-        type="button"
-      >
-        <Image
-          src="/arrow.svg"
-          alt="Arrow from to node"
-          className={`transition-transform ${
-            firstToSecond ? "" : "rotate-180"
-          }`}
-          width={30}
-          height={20}
-        />
-      </button>
-      <select
-        value={selectedSecondNode}
-        onChange={(e) => setSelectedSecondNode(Number(e.target.value))}
-        className="select select-bordered w-fit"
-      >
-        {locationMarkers.map((_, index) => {
-          return (
-            <option key={index} value={index}>
-              {index}
-            </option>
-          );
-        })}
-      </select>
-      <div className="flex flex-grow flex-col items-center justify-center">
+      <h2 className="text-lg font-bold text-black text-center self-center">
+        Add Routes
+      </h2>
+      <div className="flex flex-row items-center justify-center gap-2">
+        <select
+          className="select select-bordered w-fit select-sm"
+          value={selectedFirstNode}
+          onChange={(e) => setSelectedFirstNode(Number(e.target.value))}
+        >
+          {locationMarkers.map((_, index) => {
+            return (
+              <option key={index} value={index}>
+                {getMarkerAt(index).getName()}
+              </option>
+            );
+          })}
+        </select>
         <button
-          className={`btn btn-sm ${
+          className=""
+          onClick={() => setFirstToSecond((prev) => !prev)}
+          type="button"
+        >
+          <Image
+            src="/arrow.svg"
+            alt="Arrow from to node"
+            className={`transition-transform ${
+              firstToSecond ? "" : "rotate-180"
+            }`}
+            width={30}
+            height={20}
+          />
+        </button>
+        <select
+          value={selectedSecondNode}
+          onChange={(e) => setSelectedSecondNode(Number(e.target.value))}
+          className="select select-bordered w-fit select-sm"
+        >
+          {locationMarkers.map((_, index) => {
+            return (
+              <option key={index} value={index}>
+                {getMarkerAt(index).getName()}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+      <div className="flex flex-grow flex-col items-center justify-center w-full">
+        <button
+          className={`btn btn-sm w-full ${
             selectedFirstNode === selectedSecondNode ? "btn-disabled" : ""
           }`}
           type="submit"

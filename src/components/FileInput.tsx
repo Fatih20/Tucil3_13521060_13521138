@@ -24,11 +24,14 @@ export default function FileInput() {
         e.preventDefault();
         handleLoadFile();
       }}
-      className="flex flex-row items-center justify-center gap-2"
+      className="flex flex-col items-start justify-center gap-2"
     >
+      <h2 className="text-lg font-bold text-black text-center self-center">
+        File Input
+      </h2>
       <input
         type="file"
-        className="file-input file-input-sm"
+        className="file-input file-input-sm w-fit"
         onChange={(e) =>
           setFile(e.target.files === null ? null : e.target.files[0])
         }
