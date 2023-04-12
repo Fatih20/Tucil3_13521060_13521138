@@ -110,17 +110,19 @@ export class AdjacencyList implements GraphSearching {
 
       if (currentNode.index == destNode) break;
 
-      if (!isVisited[currentNode.index]) {
+      // if (!isVisited[currentNode.index]) {
         isVisited[currentNode.index] = true;
         this.list[currentNode.index][1].forEach((neighbor) => {
-          let nextNode: TreeNode = new TreeNode(
-            neighbor.index,
-            currentNode.totalWeight + neighbor.weight,
-            currentNode
-          );
-          queue.enqueue(nextNode);
+          if(!isVisited[neighbor.index]){
+            let nextNode: TreeNode = new TreeNode(
+              neighbor.index,
+              currentNode.totalWeight + neighbor.weight,
+              currentNode
+            );
+            queue.enqueue(nextNode);
+          }
         });
-      }
+      // }
     } while (!queue.isEmpty());
 
     if (currentNode.index == destNode) {
