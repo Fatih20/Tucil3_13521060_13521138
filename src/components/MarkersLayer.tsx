@@ -1,12 +1,10 @@
-import L, { LatLng } from "leaflet";
-import { Marker, Popup, useMap, useMapEvents } from "react-leaflet";
+import { LatLng } from "leaflet";
+import { Marker, Popup, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import {
-  LocationAndRouteContext,
   useLocationAndRouteContext,
   useSolutionContext,
 } from "@/components/AppCore";
-import { useEffect } from "react";
 import { LocationMarker } from "@/types";
 
 export default function MarkersLayer({}: {}) {
