@@ -108,24 +108,29 @@ export class AdjacencyList implements GraphSearching {
     do {
       currentNode = queue.dequeue();
 
+      // if current node is destination, break
       if (currentNode.index == destNode) break;
 
-      // if (!isVisited[currentNode.index]) {
-        isVisited[currentNode.index] = true;
-        this.list[currentNode.index][1].forEach((neighbor) => {
-          if(!isVisited[neighbor.index]){
-            let nextNode: TreeNode = new TreeNode(
-              neighbor.index,
-              currentNode.totalWeight + neighbor.weight,
-              currentNode
-            );
-            queue.enqueue(nextNode);
-          }
-        });
-      // }
+      // mark node as visited, no more expanding search to this node
+      isVisited[currentNode.index] = true;
+      this.list[currentNode.index][1].forEach((neighbor) => {
+        // expand search to every nodes
+        if(!isVisited[neighbor.index]){
+          // create expand node in search tree
+          let nextNode: TreeNode = new TreeNode(
+            neighbor.index,
+            currentNode.totalWeight + neighbor.weight,
+            currentNode
+          );
+          // enqueue expand node to be traversed
+          queue.enqueue(nextNode);
+        }
+      });
     } while (!queue.isEmpty());
 
+    // if found (path from start to destination exists)
     if (currentNode.index == destNode) {
+      // create path from root to solution node
       let path = new Array<number>();
       let traversalNode: TreeNode | null = currentNode;
       do {
@@ -134,7 +139,7 @@ export class AdjacencyList implements GraphSearching {
       } while (traversalNode != null);
       path.reverse();
       return path;
-    } else {
+    } else {  // no path found
       throw new Error("No path from start to destination found");
     }
   }
@@ -160,23 +165,30 @@ export class AdjacencyList implements GraphSearching {
     do {
       currentNode = queue.dequeue();
 
+      // if current node is destination, break
       if (currentNode.index == destNode) break;
 
-      if (!isVisited[currentNode.index]) {
-        isVisited[currentNode.index] = true;
-        this.list[currentNode.index][1].forEach((neighbor) => {
+      // mark node as visited, no more expanding search to this node
+      isVisited[currentNode.index] = true;
+      this.list[currentNode.index][1].forEach((neighbor) => {
+        // expand search to every nodes
+        if(!isVisited[neighbor.index]){
+          // create expand node in search tree
           let nextNode: TreeNode = new TreeNode(
             neighbor.index,
             currentNode.totalWeight + neighbor.weight,
             currentNode,
             SLD[neighbor.index]
           );
+          // enqueue expand node to be traversed
           queue.enqueue(nextNode);
-        });
-      }
+        }
+      });
     } while (!queue.isEmpty());
 
+    // if found (path from start to destination exists)
     if (currentNode.index == destNode) {
+      // create path from root to solution node
       let path = new Array<number>();
       let traversalNode: TreeNode | null = currentNode;
       do {
@@ -185,7 +197,7 @@ export class AdjacencyList implements GraphSearching {
       } while (traversalNode != null);
       path.reverse();
       return path;
-    } else {
+    } else {  // no path found
       throw new Error("No path from start to destination found");
     }
   }
