@@ -5,7 +5,9 @@ export class Route {
   private destination: number;
   private weight: number;
   private twoWay: boolean;
-  private partOfPath: boolean;
+  private static twoWayColor = "#68b723";
+  private static oneWayColor = "#f37329";
+  private static partOfPathColor = "#3689e6";
 
   constructor(
     source: number,
@@ -17,7 +19,6 @@ export class Route {
     this.destination = destination;
     this.weight = weight;
     this.twoWay = twoWay;
-    this.partOfPath = false;
   }
 
   public getSource(): number {
@@ -28,8 +29,8 @@ export class Route {
     return this.twoWay;
   }
 
-  public isPartOfPath() {
-    return this.partOfPath;
+  public isPartOfPath(routesTuple: [number, number][]) {
+    return routesTuple.some((tuple) => this.isEqualTuple(tuple));
   }
 
   public getDestination(): number {
@@ -48,14 +49,6 @@ export class Route {
 
   public makeTwoWay() {
     this.twoWay = true;
-  }
-
-  public makeNotPartOfPath() {
-    this.partOfPath = false;
-  }
-
-  public makePartOfPath() {
-    this.partOfPath = true;
   }
 
   public isEqual(r: Route): boolean {
@@ -77,6 +70,30 @@ export class Route {
 
   public isContainNodeIndex(index: number) {
     return this.destination === index || this.source === index;
+  }
+
+  public getColor(pathRoutesTuple: [number, number][]) {
+    if (this.isPartOfPath(pathRoutesTuple)) {
+      return this.getPartOfPathColor();
+    }
+
+    if (this.isTwoWay()) {
+      return this.getTwoWayColor();
+    }
+
+    return this.getOneWayColor();
+  }
+
+  public getOneWayColor() {
+    return Route.oneWayColor;
+  }
+
+  public getTwoWayColor() {
+    return Route.twoWayColor;
+  }
+
+  public getPartOfPathColor() {
+    return Route.partOfPathColor;
   }
 }
 

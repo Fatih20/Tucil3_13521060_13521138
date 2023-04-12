@@ -1,5 +1,7 @@
+import { MapNode } from "@/mapNode";
+import { AdjacencyList } from "@/searchMap";
 import { Route } from "@/types";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 export type UseSolution = {
   sourceMarkerIndex: number | null;
@@ -9,10 +11,11 @@ export type UseSolution = {
   isSourceIndex: (arg0: number) => boolean;
   isDestinationIndex: (arg0: number) => boolean;
   pathSequence: number[];
-  search: (arg0: Route[]) => void;
+  search: (nodes: MapNode[], graph: number[][], isAStar: boolean) => void;
   resetPathSequence: () => void;
   resetSourceAndDest: () => void;
   isSourceAndDestinationSame: () => boolean;
+  pathRoutesTuple: [number, number][];
 };
 
 export function useSolution() {
@@ -24,6 +27,10 @@ export function useSolution() {
   );
 
   const [pathSequence, setPathSequence] = useState([] as number[]);
+  const pathRoutesTuple = useMemo(
+    () => AdjacencyList.computeEdges(pathSequence),
+    [pathSequence]
+  );
 
   function isSourceIndex(index: number) {
     return index === sourceMarkerIndex;
@@ -33,7 +40,17 @@ export function useSolution() {
     return index === destinationMarkerIndex;
   }
 
-  function search(routes: Route[]) {}
+  function search(nodes: MapNode[], graph: number[][], isAStar: boolean) {
+    const aL = new AdjacencyList(nodes, graph);
+    if (sourceMarkerIndex === null || destinationMarkerIndex === null) {
+      return;
+    }
+    if (isAStar) {
+      setPathSequence(aL.AStar(sourceMarkerIndex, destinationMarkerIndex));
+    } else {
+      setPathSequence(aL.UCS(sourceMarkerIndex, destinationMarkerIndex));
+    }
+  }
 
   function resetPathSequence() {
     setPathSequence([]);
@@ -60,5 +77,6 @@ export function useSolution() {
     resetPathSequence,
     resetSourceAndDest,
     isSourceAndDestinationSame,
+    pathRoutesTuple,
   };
 }

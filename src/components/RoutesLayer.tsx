@@ -3,10 +3,13 @@ import "leaflet/dist/leaflet.css";
 import {
   LocationAndRouteContext,
   useLocationAndRouteContext,
+  useSolutionContext,
 } from "@/components/AppCore";
+import { Route } from "@/types";
 
 export default function RoutesLayer({}: {}) {
   const { getMarkerAt, routes, removeRoute } = useLocationAndRouteContext();
+  const { pathRoutesTuple } = useSolutionContext();
   return (
     <>
       {routes.map((route, index) => {
@@ -15,7 +18,7 @@ export default function RoutesLayer({}: {}) {
 
         return (
           <Polyline
-            pathOptions={{ color: route.isTwoWay() ? "#DA70D6" : "#87CEFA" }}
+            pathOptions={{ color: route.getColor(pathRoutesTuple) }}
             positions={[
               [markerSource.lat, markerSource.lng],
               [markerDestination.lat, markerDestination.lng],

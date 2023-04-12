@@ -95,7 +95,7 @@ export class AdjacencyList implements GraphSearching {
     let currentNode: TreeNode;
     do {
       currentNode = queue.dequeue();
-    
+
       if (currentNode.index == destNode) break;
 
       if (!isVisited[currentNode.index]) {
@@ -145,7 +145,7 @@ export class AdjacencyList implements GraphSearching {
     let currentNode: TreeNode;
     do {
       currentNode = queue.dequeue();
-    
+
       if (currentNode.index == destNode) break;
 
       if (!isVisited[currentNode.index]) {
@@ -177,10 +177,15 @@ export class AdjacencyList implements GraphSearching {
   }
 
   static computeEdges(nodesList: number[]) {
-    let edgesList: [number, number][] = new Array<[number, number]>(nodesList.length-1);
-    for(let i = 0; i < nodesList.length-1; i++) {
-      edgesList[i] = [nodesList[i], nodesList[i+1]];
+    if (nodesList.length <= 0) {
+      return [] as [number, number][];
     }
+    let edgesList: [number, number][] = new Array<[number, number]>(
+      nodesList.length - 1
+    );
+    for (let i = 0; i < nodesList.length - 1; i++) {
+      edgesList[i] = [nodesList[i], nodesList[i + 1]];
+    }
+    return edgesList;
   }
-  
 }
