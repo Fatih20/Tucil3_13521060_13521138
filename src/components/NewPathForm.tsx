@@ -25,7 +25,7 @@ export default function NewPathForm() {
 
   return (
     <form
-      className={`flex flex-col items-start justify-center w-fit gap-2 ${
+      className={`flex flex-col items-start justify-center w-full gap-2 ${
         locationMarkers.length <= 1 ? "hidden" : ""
       }`}
       onSubmit={(e) => handleSubmit}
@@ -33,9 +33,9 @@ export default function NewPathForm() {
       <h2 className="text-lg font-bold text-black text-center self-center">
         Add Routes
       </h2>
-      <div className="flex flex-row items-center justify-center gap-2">
+      <div className="flex flex-col items-center justify-center gap-2 w-full">
         <select
-          className="select select-bordered w-fit select-sm"
+          className="select select-bordered w-full select-sm"
           value={selectedFirstNode}
           onChange={(e) => setSelectedFirstNode(Number(e.target.value))}
         >
@@ -56,7 +56,7 @@ export default function NewPathForm() {
             src="/arrow.svg"
             alt="Arrow from to node"
             className={`transition-transform ${
-              firstToSecond ? "" : "rotate-180"
+              firstToSecond ? "rotate-90" : "-rotate-90"
             }`}
             width={30}
             height={20}
@@ -65,7 +65,7 @@ export default function NewPathForm() {
         <select
           value={selectedSecondNode}
           onChange={(e) => setSelectedSecondNode(Number(e.target.value))}
-          className="select select-bordered w-fit select-sm"
+          className="select select-bordered w-full select-sm"
         >
           {locationMarkers.map((_, index) => {
             return (

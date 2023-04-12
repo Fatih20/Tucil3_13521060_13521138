@@ -45,9 +45,9 @@ export default function AppCore() {
     <>
       <LocationAndRouteContext.Provider value={locationAndRouteHook}>
         <SolutionContext.Provider value={solutionHook}>
-          <main className="flex h-screen flex-col items-center justify-between w-screen relative">
-            <div className="absolute bg-transparent inset-0 w-full flex flex-col items-start justify-end z-[100] pointer-events-none box-border p-2">
-              <div className="flex flex-col items-center justify-center gap-4 pointer-events-auto self-end">
+          <main className="flex h-screen flex-row items-center justify-between w-screen relative">
+            <div className="absolute bg-transparent inset-0 w-full flex flex-col-reverse z-[100] pointer-events-none box-border p-2">
+              <div className="flex flex-col gap-4 pointer-events-auto self-start">
                 <button
                   className="btn btn-sm pointer-events-auto shadow-lg shadow-black/50"
                   onClick={locationAndRouteHook.resetMarker}
@@ -64,10 +64,13 @@ export default function AppCore() {
               <div className="flex-grow"></div>
             </div>
             <MapComponent />
-            <div className="flex flex-row items-start justify-start w-full pointer-events-auto gap-4 bg-white box-border  p-4 shadow-black/50">
+            <div className="flex h-full w-full flex-col items-start justify-start pointer-events-auto gap-4 bg-white box-border  p-4 shadow-black/50 max-w-sm overflow-y-scroll">
               <FileInput />
+              <div className="divider divider-vertical"></div>
               <NewPathForm />
+              <div className="divider divider-vertical"></div>
               <SearchBar />
+              <div className="divider divider-vertical"></div>
               <ResultBar pathSequence={solutionHook.pathSequence} />
             </div>
           </main>
