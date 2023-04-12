@@ -33,7 +33,6 @@ export class AdjacencyList implements GraphSearching {
     this.list = new Array<[MapNode, AdjacentNode[]]>(nNodes)
       .fill([new MapNode("", 0, 0), []])
       .map(() => [new MapNode("", 0, 0), []]);
-    console.log(graph);
     for (let i = 0; i < nNodes; i++) {
       /* insert node information */
       this.list[i][0] = nodes[i].clone();
@@ -47,15 +46,6 @@ export class AdjacencyList implements GraphSearching {
           this.addNeighbor(i, newNeighbor);
         }
       }
-    }
-
-    for (let i = 0; i < nNodes; i++) {
-      console.log(this.list[i][0].name + "---------------");
-      this.list[i][1].forEach((element) => {
-        console.log(
-          "neighbor: " + element.index + " weight: " + element.weight
-        );
-      });
     }
   }
 
