@@ -161,10 +161,10 @@ export const compareTreeNode: ICompare<TreeNode> = (a: TreeNode, b: TreeNode) =>
     let aValue = a.totalWeight + a.heuristic;
     let bValue = b.totalWeight + b.heuristic;
     if(aValue < bValue) {
-        return 1;
-    }
-    if(aValue > bValue) {
         return -1;
     }
-    return a.totalWeight < b.totalWeight ? 1 : -1;
+    if(aValue > bValue) {
+        return 1;
+    }
+    return a.totalWeight < b.totalWeight ? -1 : 1;
 }
