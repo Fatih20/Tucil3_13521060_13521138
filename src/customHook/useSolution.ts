@@ -4,9 +4,9 @@ import { Route } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 
 export type UseSolution = {
-  sourceMarkerIndex: number | null;
+  sourceMarkerIndex: number;
   setSourceMarkerIndex: (arg0: number) => void;
-  destinationMarkerIndex: number | null;
+  destinationMarkerIndex: number;
   setDestinationMarkerIndex: (arg0: number) => void;
   isSourceIndex: (arg0: number) => boolean;
   isDestinationIndex: (arg0: number) => boolean;
@@ -23,12 +23,8 @@ export type UseSolution = {
 };
 
 export function useSolution() {
-  const [sourceMarkerIndex, setSourceMarkerIndex] = useState(
-    0 as null | number
-  );
-  const [destinationMarkerIndex, setDestinationMarkerIndex] = useState(
-    0 as null | number
-  );
+  const [sourceMarkerIndex, setSourceMarkerIndex] = useState(-1);
+  const [destinationMarkerIndex, setDestinationMarkerIndex] = useState(-1);
 
   const [pathSequence, setPathSequence] = useState([] as number[]);
   const pathRoutesTuple = useMemo(
@@ -54,7 +50,7 @@ export function useSolution() {
     isAStar: boolean
   ) {
     const aL = new AdjacencyList(nodes, graph);
-    if (sourceMarkerIndex === null || destinationMarkerIndex === null) {
+    if (sourceMarkerIndex === -1 || destinationMarkerIndex === -1) {
       return;
     }
     if (isAStar) {
@@ -69,8 +65,8 @@ export function useSolution() {
   }
 
   function resetSourceAndDest() {
-    setSourceMarkerIndex(null);
-    setDestinationMarkerIndex(null);
+    setSourceMarkerIndex(-1);
+    setDestinationMarkerIndex(-1);
   }
 
   function isSourceAndDestinationSame() {

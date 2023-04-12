@@ -40,7 +40,7 @@ export default function SearchBar() {
       <div className="flex flex-row items-center justify-center gap-2">
         <select
           className="select select-bordered w-fit select-sm"
-          value={sourceMarkerIndex ?? 0}
+          value={sourceMarkerIndex === -1 ? "Start Node" : sourceMarkerIndex}
           onChange={(e) => setSourceMarkerIndex(Number(e.target.value))}
         >
           {locationMarkers.map((_, index) => {
@@ -67,7 +67,11 @@ export default function SearchBar() {
           />
         </button>
         <select
-          value={destinationMarkerIndex ?? 0}
+          value={
+            destinationMarkerIndex === -1
+              ? "Destination Node"
+              : destinationMarkerIndex ?? 0
+          }
           onChange={(e) => setDestinationMarkerIndex(Number(e.target.value))}
           className="select select-bordered w-fit select-sm"
         >
