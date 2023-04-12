@@ -123,8 +123,8 @@ export function useLocationAndRoute(
   }
 
   function getLocationAsNodeList(): MapNode[] {
-    return locationMarkers.map((markers, index) => {
-      return new MapNode(index.toString(), markers.lat, markers.lng);
+    return locationMarkers.map((markers) => {
+      return new MapNode(markers.getName(), markers.lat, markers.lng);
     });
   }
 
