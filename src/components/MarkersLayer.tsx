@@ -51,7 +51,8 @@ export default function MarkersLayer({}: {}) {
               </p>
               <button
                 className="btn btn-xs"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   removeRouteWithNodeIndex(index);
                   removeLocationMarker(index);
                 }}

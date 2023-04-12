@@ -10,7 +10,7 @@ export default function MapComponent({}: {}) {
     <MapContainer
       center={position}
       zoom={13}
-      scrollWheelZoom={false}
+      scrollWheelZoom={true}
       className="w-full h-full z-0"
     >
       <TileLayer
