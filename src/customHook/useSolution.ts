@@ -1,7 +1,6 @@
 import { MapNode } from "@/mapNode";
 import { AdjacencyList } from "@/searchMap";
-import { Route } from "@/types";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 export type UseSolution = {
   sourceMarkerIndex: number;
@@ -32,10 +31,6 @@ export function useSolution() {
     () => AdjacencyList.computeEdges(pathSequence),
     [pathSequence]
   );
-
-  useEffect(() => {
-    // console.log(pathSequence);
-  }, [pathSequence]);
 
   function isSourceIndex(index: number) {
     return index === sourceMarkerIndex;

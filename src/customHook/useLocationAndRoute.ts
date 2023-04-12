@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { LatLng } from "leaflet";
 import { MapNode } from "@/mapNode";
-import { Node, Route, LocationMarker } from "@/types";
+import { Route, LocationMarker } from "@/types";
 
 export type UseLocationAndRouteHook = {
   locationMarkers: LocationMarker[];
@@ -113,10 +113,7 @@ export function useLocationAndRoute(
       .fill(undefined)
       .map(() => Array(numberOfMarker).fill("-"));
 
-    console.log(matrix);
-
     routes.forEach((route) => {
-      console.log(route);
       matrix[route.getSource()][route.getDestination()] = route.getWeight();
       if (route.isTwoWay()) {
         matrix[route.getDestination()][route.getSource()] = route.getWeight();
