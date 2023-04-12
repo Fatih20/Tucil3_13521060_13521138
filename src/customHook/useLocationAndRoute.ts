@@ -157,15 +157,15 @@ export function useLocationAndRoute(
 
     let routes = [] as Route[];
 
-    for (let i = nNodes + 1; i < nNodes * 2 + 1; i++) {
-      let trueIndex = i - nNodes;
-      let lineRead = fileLines[i].split(" ");
+    for (let secondI = nNodes + 1; secondI < nNodes * 2 + 1; secondI++) {
+      let trueIndex = secondI - nNodes - 1;
+      let lineRead = fileLines[secondI].split(" ");
 
       if (lineRead.length != nNodes) return false;
 
       for (let j = trueIndex; j < nNodes; j++) {
-        const weight1 = parseFloat(fileLines[trueIndex][j]);
-        const weight2 = parseFloat(fileLines[j][trueIndex]);
+        const weight1 = parseFloat(fileLines[secondI].split(" ")[j]);
+        const weight2 = parseFloat(fileLines[j].split(" ")[secondI]);
 
         // Jika kedua nilai bukan angka, lewati loop
         if (isNaN(weight1) && isNaN(weight2)) continue;
