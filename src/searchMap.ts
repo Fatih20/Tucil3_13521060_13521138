@@ -27,13 +27,14 @@ export interface GraphSearching {
 
 export class AdjacencyList implements GraphSearching {
   private list: [node: MapNode, neighbors: AdjacentNode[]][];
-
+  
   constructor(nodes: MapNode[], graph: (number | string)[][]) {
     const nNodes = nodes.length;
     this.list = new Array<[MapNode, AdjacentNode[]]>(nNodes).fill([
       new MapNode("", 0, 0),
       [],
     ]);
+    console.log(graph);
     for (let i = 0; i < nNodes; i++) {
       /* insert node information */
       this.list[i][0] = nodes[i].clone();
@@ -41,12 +42,19 @@ export class AdjacencyList implements GraphSearching {
       this.list[i][1] = new Array<AdjacentNode>();
       /* insert neighboring nodes */
       for (let j = 0; j < nNodes; j++) {
-        let weight = graph[i][j];
+        const weight = graph[i][j];
         if (!Number.isNaN(weight) && typeof weight != "string") {
-          let newNeighbor = new AdjacentNode(j, weight);
+          const newNeighbor = new AdjacentNode(j, weight);
           this.addNeighbor(i, newNeighbor);
         }
       }
+    }
+    
+    for(let i = 0; i <nNodes; i++) {
+      console.log(this.list[i][0].name + "---------------");
+      this.list[i][1].forEach(element => {
+        console.log("neighbor: " + element.index + " weight: " + element.weight);
+      });
     }
   }
 
