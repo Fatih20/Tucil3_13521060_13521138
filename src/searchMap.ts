@@ -14,7 +14,7 @@ export interface GraphSearching {
    * @param destNode destination node
    * @returns List of nodes showing path from starting node to destination node
    */
-  UCS(startNode: number, destNode: number): MapNode[];
+  UCS(startNode: number, destNode: number): number[];
 
   /**
    * Graph searching for start-end path with A* Algorithm
@@ -22,7 +22,7 @@ export interface GraphSearching {
    * @param destNode destination node
    * @returns List of nodes showing path from starting node to destination node
    */
-  AStar(startNode: number, destNode: number): MapNode[];
+  AStar(startNode: number, destNode: number): number[];
 }
 
 export class AdjacencyList implements GraphSearching {
@@ -82,7 +82,7 @@ export class AdjacencyList implements GraphSearching {
     this.list.push([newNode.clone(), new Array<AdjacentNode>()]);
   }
 
-  UCS(startNode: number, destNode: number): MapNode[] {
+  UCS(startNode: number, destNode: number): number[] {
     const searchTree: TreeNode = new TreeNode(startNode); // create search tree root
     let queue: PriorityQueue<TreeNode> = new PriorityQueue<TreeNode>(
       compareTreeNode,
@@ -112,17 +112,20 @@ export class AdjacencyList implements GraphSearching {
     } while (!queue.isEmpty);
 
     if (currentNode.index == destNode) {
-      let path = new Array<MapNode>();
+      let path = new Array<number>();
+      let traversalNode: TreeNode | null = currentNode;
       do {
-        path.push(this.list[currentNode.index][0].clone());
-      } while (!currentNode.isRoot);
+        path.push(traversalNode.index);
+        traversalNode = traversalNode.parent;
+      } while (traversalNode != null);
+      path.reverse();
       return path;
     } else {
       throw new Error("No path from start to destination found");
     }
   }
 
-  AStar(startNode: number, destNode: number): MapNode[] {
+  AStar(startNode: number, destNode: number): number[] {
     /* Pre-process heuristic values (straight line distance of nodes to destNode) */
     let SLD: number[] = new Array<number>(this.list.length);
     for (let i = 0; i < this.list.length; i++) {
@@ -160,10 +163,13 @@ export class AdjacencyList implements GraphSearching {
     } while (!queue.isEmpty);
 
     if (currentNode.index == destNode) {
-      let path = new Array<MapNode>();
+      let path = new Array<number>();
+      let traversalNode: TreeNode | null = currentNode;
       do {
-        path.push(this.list[currentNode.index][0].clone());
-      } while (!currentNode.isRoot);
+        path.push(traversalNode.index);
+        traversalNode = traversalNode.parent;
+      } while (traversalNode != null);
+      path.reverse();
       return path;
     } else {
       throw new Error("No path from start to destination found");
