@@ -10,6 +10,7 @@ import { createContext } from "react";
 import NewPathForm from "@/components/NewPathForm";
 import FileInput from "@/components/FileInput";
 import SearchBar from "./SearchBar";
+import ResultBar from "./ResultBar";
 
 export const LocationAndRouteContext = createContext<UseLocationAndRouteHook>(
   {} as UseLocationAndRouteHook
@@ -48,6 +49,7 @@ export default function AppCore() {
               <NewPathForm />
               <FileInput />
               <SearchBar />
+              <ResultBar pathSequence={[1, 2, 3, 4, 5]} />
             </div>
           </div>
         </main>
