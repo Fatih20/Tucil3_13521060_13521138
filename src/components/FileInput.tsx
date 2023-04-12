@@ -1,10 +1,13 @@
-import { useContext, useState } from "react";
-import { LocationAndRouteContext } from "@/components/AppCore";
+import { useState } from "react";
+import {
+  LocationAndRouteContext,
+  useLocationAndRouteContext,
+} from "@/components/AppCore";
 
 export default function FileInput() {
   const [file, setFile] = useState(null as null | File);
   const [fileReadSuccess, setFileReadSuccess] = useState(true);
-  const { parseFile } = useContext(LocationAndRouteContext);
+  const { parseFile } = useLocationAndRouteContext();
   function handleLoadFile() {
     if (file === null) {
       return;

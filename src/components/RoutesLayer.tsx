@@ -1,12 +1,12 @@
 import { Marker, Polyline, Popup, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { LocationAndRouteContext } from "@/components/AppCore";
-import { useContext } from "react";
+import {
+  LocationAndRouteContext,
+  useLocationAndRouteContext,
+} from "@/components/AppCore";
 
 export default function RoutesLayer({}: {}) {
-  const { getMarkerAt, routes, removeRoute } = useContext(
-    LocationAndRouteContext
-  );
+  const { getMarkerAt, routes, removeRoute } = useLocationAndRouteContext();
   return (
     <>
       {routes.map((route, index) => {

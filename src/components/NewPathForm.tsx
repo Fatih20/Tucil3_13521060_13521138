@@ -1,11 +1,13 @@
-import { LocationAndRouteContext } from "@/components/AppCore";
-import { useContext, useState } from "react";
+import {
+  LocationAndRouteContext,
+  useLocationAndRouteContext,
+} from "@/components/AppCore";
+import { useState } from "react";
 import Image from "next/image";
 
 export default function NewPathForm() {
-  const { locationMarkers, addRoute, getMarkerAt } = useContext(
-    LocationAndRouteContext
-  );
+  const { locationMarkers, addRoute, getMarkerAt } =
+    useLocationAndRouteContext();
   const [selectedFirstNode, setSelectedFirstNode] = useState(0);
   const [selectedSecondNode, setSelectedSecondNode] = useState(0);
   const [firstToSecond, setFirstToSecond] = useState(true);

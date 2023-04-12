@@ -1,9 +1,9 @@
-import { useContext, useState } from "react";
-import { LocationAndRouteContext } from "./AppCore";
+import { useState } from "react";
+import { LocationAndRouteContext, useLocationAndRouteContext } from "./AppCore";
 import Image from "next/image";
 
 export default function SearchBar() {
-  const { locationMarkers, getMarkerAt } = useContext(LocationAndRouteContext);
+  const { locationMarkers, getMarkerAt } = useLocationAndRouteContext();
   const [sourceNodeIndex, setSourceNodeIndex] = useState(0);
   const [destinationNodeIndex, setDestinationNodeIndex] = useState(0);
   const [firstToSecond, setFirstToSecond] = useState(true);
@@ -17,7 +17,7 @@ export default function SearchBar() {
       }`}
       onSubmit={(e) => handleSubmit}
     >
-      <h2 className="text-lg font-bold text-black text-center self-center">
+      <h2 className="text-lg font-bold text-black text-center self-center w-full">
         Search For A Path
       </h2>
       <div className="flex flex-row items-center justify-center gap-2">

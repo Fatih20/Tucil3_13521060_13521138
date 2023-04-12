@@ -64,6 +64,10 @@ export class Route {
     );
   }
 
+  public isEqualTuple(tuple: [number, number]) {
+    return this.source === tuple[0] && this.destination === tuple[1];
+  }
+
   public isEqualSD(r: Route): boolean {
     return (
       this.isEqual(r) ||
@@ -83,33 +87,11 @@ export type Node = {
 };
 
 export class LocationMarker extends LatLng {
-  private typeOfMarker: 0 | -1 | 1;
   private name: string;
 
   constructor(pos: LatLng, name: string) {
     super(pos.lat, pos.lng);
-    this.typeOfMarker = 0;
     this.name = name;
-  }
-
-  public makeStart() {
-    this.typeOfMarker = -1;
-  }
-
-  public makeEnd() {
-    this.typeOfMarker = 1;
-  }
-
-  public isStart() {
-    return this.typeOfMarker === -1;
-  }
-
-  public isEnd() {
-    return this.typeOfMarker === 1;
-  }
-
-  public isRegular() {
-    return this.typeOfMarker === 0;
   }
 
   public getName() {
