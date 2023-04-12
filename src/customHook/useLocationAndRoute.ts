@@ -54,6 +54,7 @@ export function useLocationAndRoute(
   }
 
   function resetMarker() {
+    resetRoutes();
     setLocationMarkers([]);
   }
 
