@@ -58,7 +58,12 @@ export class Route {
   }
 
   public isEqualTuple(tuple: [number, number]) {
-    return this.source === tuple[0] && this.destination === tuple[1];
+    const mockRoute = new Route(tuple[0], tuple[1], 0);
+    if (!this.isTwoWay()) {
+      return this.isEqual(mockRoute);
+    } else {
+      return this.isEqualSD(mockRoute);
+    }
   }
 
   public isEqualSD(r: Route): boolean {
