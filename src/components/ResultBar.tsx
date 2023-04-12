@@ -1,9 +1,11 @@
+import { useLocationAndRouteContext } from "./AppCore";
+
 export default function ResultBar({
   pathSequence = [],
 }: {
   pathSequence?: number[];
 }) {
-  const pathText = pathSequence?.join(" → ");
+  const { getMarkerAt } = useLocationAndRouteContext();
   return (
     <div
       className={`flex flex-col items-center justify-center text-center text-base text-black w-fit ${
@@ -11,7 +13,9 @@ export default function ResultBar({
       }`}
     >
       <h2 className="text-lg font-bold">Found Path</h2>
-      <p>{pathText}</p>
+      <p>
+        {pathSequence?.map((index) => getMarkerAt(index).getName()).join(" → ")}
+      </p>
     </div>
   );
 }
