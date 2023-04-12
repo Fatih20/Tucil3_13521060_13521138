@@ -27,13 +27,12 @@ export interface GraphSearching {
 
 export class AdjacencyList implements GraphSearching {
   private list: [node: MapNode, neighbors: AdjacentNode[]][];
-  
+
   constructor(nodes: MapNode[], graph: (number | string)[][]) {
     const nNodes = nodes.length;
-    this.list = new Array<[MapNode, AdjacentNode[]]>(nNodes).fill([
-      new MapNode("", 0, 0),
-      [],
-    ]);
+    this.list = new Array<[MapNode, AdjacentNode[]]>(nNodes)
+      .fill([new MapNode("", 0, 0), []])
+      .map(() => [new MapNode("", 0, 0), []]);
     console.log(graph);
     for (let i = 0; i < nNodes; i++) {
       /* insert node information */
@@ -49,11 +48,13 @@ export class AdjacencyList implements GraphSearching {
         }
       }
     }
-    
-    for(let i = 0; i <nNodes; i++) {
+
+    for (let i = 0; i < nNodes; i++) {
       console.log(this.list[i][0].name + "---------------");
-      this.list[i][1].forEach(element => {
-        console.log("neighbor: " + element.index + " weight: " + element.weight);
+      this.list[i][1].forEach((element) => {
+        console.log(
+          "neighbor: " + element.index + " weight: " + element.weight
+        );
       });
     }
   }
