@@ -1,7 +1,6 @@
 import { MapNode } from "@/mapNode";
 import { AdjacencyList } from "@/searchMap";
-import { Route } from "@/types";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 export type UseSolution = {
   sourceMarkerIndex: number;

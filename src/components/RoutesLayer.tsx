@@ -4,7 +4,6 @@ import {
   useLocationAndRouteContext,
   useSolutionContext,
 } from "@/components/AppCore";
-import { useEffect } from "react";
 
 export default function RoutesLayer({}: {}) {
   const { getMarkerAt, routes, removeRoute } = useLocationAndRouteContext();

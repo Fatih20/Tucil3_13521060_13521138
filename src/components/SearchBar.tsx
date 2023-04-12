@@ -1,9 +1,5 @@
 import { useState } from "react";
-import {
-  LocationAndRouteContext,
-  useLocationAndRouteContext,
-  useSolutionContext,
-} from "./AppCore";
+import { useLocationAndRouteContext, useSolutionContext } from "./AppCore";
 import Image from "next/image";
 
 export default function SearchBar() {

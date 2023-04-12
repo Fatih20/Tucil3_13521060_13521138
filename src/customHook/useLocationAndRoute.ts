@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { LatLng } from "leaflet";
 import { MapNode } from "@/mapNode";
-import { Node, Route, LocationMarker } from "@/types";
+import { Route, LocationMarker } from "@/types";
 
 export type UseLocationAndRouteHook = {
   locationMarkers: LocationMarker[];
