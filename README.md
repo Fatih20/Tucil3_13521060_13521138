@@ -13,4 +13,4 @@ Program dapat digunakan melalui tautan [berikut](https://chimerical-khapse-d2481
 Program ini dibuat oleh:
 
 - 13521060 - Fatih Nararya R.I.
-- 13521101 - Arsa Izdihar Islam
+- 13521138 - Johann C. K.
