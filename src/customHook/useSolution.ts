@@ -24,10 +24,10 @@ export type UseSolution = {
 
 export function useSolution() {
   const [sourceMarkerIndex, setSourceMarkerIndex] = useState(
-    null as null | number
+    0 as null | number
   );
   const [destinationMarkerIndex, setDestinationMarkerIndex] = useState(
-    null as null | number
+    0 as null | number
   );
 
   const [pathSequence, setPathSequence] = useState([] as number[]);
@@ -37,7 +37,7 @@ export function useSolution() {
   );
 
   useEffect(() => {
-    console.log(pathSequence);
+    // console.log(pathSequence);
   }, [pathSequence]);
 
   function isSourceIndex(index: number) {

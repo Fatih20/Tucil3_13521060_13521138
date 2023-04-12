@@ -14,7 +14,6 @@ export default function NewPathForm() {
   const [isTwoWay, setIsTwoWay] = useState(false);
 
   function handleSubmit() {
-    // console.log("Selecteds", selectedFirstNode, selectedSecondNode);
     if (firstToSecond) {
       addRoute(selectedFirstNode, selectedSecondNode, isTwoWay);
     } else {

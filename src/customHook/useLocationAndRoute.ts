@@ -109,7 +109,6 @@ export function useLocationAndRoute(
 
   function getRouteMatrix(): (string | number)[][] {
     const numberOfMarker = locationMarkers.length;
-    console.log(numberOfMarker);
     const matrix = new Array(numberOfMarker).fill(
       new Array(numberOfMarker).fill("-")
     );
@@ -139,12 +138,10 @@ export function useLocationAndRoute(
 
   function parseFile(fileLines: string[]): boolean {
     const nNodes = Number(fileLines[0].split(" ")[0]);
-    console.log(nNodes);
 
     let markers = [] as LocationMarker[];
     for (let i = 1; i < nNodes + 1; i++) {
       let lineRead = fileLines[i].split(" ");
-      console.log(lineRead);
       // Return false if the number of element is incorrect
       if (lineRead.length != 3) return false;
 
@@ -163,7 +160,6 @@ export function useLocationAndRoute(
     for (let i = nNodes + 1; i < nNodes * 2 + 1; i++) {
       let trueIndex = i - nNodes;
       let lineRead = fileLines[i].split(" ");
-      // console.log(lineRead);
 
       if (lineRead.length != nNodes) return false;
 

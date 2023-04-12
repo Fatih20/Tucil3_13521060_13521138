@@ -28,9 +28,6 @@ export async function fileGraphParse(
   const lines = file.readLines();
 
   /* start parsing */
-  // for await (const line of file.readLines()) {
-  //     console.log(line);
-  // }
 
   /* first line: number of nodes for input */
   const nNodes = Number(lines.line);
