@@ -19,6 +19,7 @@ export default function SearchBar() {
     sourceMarkerIndex,
     destinationMarkerIndex,
     isSourceAndDestinationSame,
+    swapSourceAndDest,
     search,
   } = useSolutionContext();
   const [firstToSecond, setFirstToSecond] = useState(true);
@@ -53,7 +54,10 @@ export default function SearchBar() {
         </select>
         <button
           className=""
-          onClick={() => setFirstToSecond((prev) => !prev)}
+          onClick={() => {
+            setFirstToSecond((prev) => !prev);
+            swapSourceAndDest();
+          }}
           type="button"
         >
           <Image

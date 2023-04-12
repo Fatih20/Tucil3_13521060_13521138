@@ -20,6 +20,7 @@ export type UseSolution = {
   resetSourceAndDest: () => void;
   isSourceAndDestinationSame: () => boolean;
   pathRoutesTuple: [number, number][];
+  swapSourceAndDest: () => void;
 };
 
 export function useSolution() {
@@ -42,6 +43,12 @@ export function useSolution() {
 
   function isDestinationIndex(index: number) {
     return index === destinationMarkerIndex;
+  }
+
+  function swapSourceAndDest() {
+    const temp = sourceMarkerIndex;
+    setSourceMarkerIndex(destinationMarkerIndex);
+    setDestinationMarkerIndex(temp);
   }
 
   function search(
@@ -92,5 +99,6 @@ export function useSolution() {
     resetSourceAndDest,
     isSourceAndDestinationSame,
     pathRoutesTuple,
+    swapSourceAndDest,
   };
 }
