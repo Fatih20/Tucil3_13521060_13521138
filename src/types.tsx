@@ -1,4 +1,4 @@
-import { LatLng } from "leaflet";
+import L, { LatLng } from "leaflet";
 
 export class Route {
   private source: number;
@@ -89,6 +89,21 @@ export type Node = {
 export class LocationMarker extends LatLng {
   private name: string;
 
+  private static regularIcon = new L.Icon({
+    iconUrl: "/marker/regularIcon.svg",
+    iconSize: [32, 40],
+  });
+
+  private static sourceIcon = new L.Icon({
+    iconUrl: "/marker/sourceIcon.svg",
+    iconSize: [32, 40],
+  });
+
+  private static destinationIcon = new L.Icon({
+    iconUrl: "/marker/destinationIcon.svg",
+    iconSize: [32, 40],
+  });
+
   constructor(pos: LatLng, name: string) {
     super(pos.lat, pos.lng);
     this.name = name;
@@ -100,5 +115,17 @@ export class LocationMarker extends LatLng {
 
   public setName(name: string) {
     this.name = name;
+  }
+
+  public getSourceIcon(): L.Icon {
+    return LocationMarker.sourceIcon;
+  }
+
+  public getDestinationIcon(): L.Icon {
+    return LocationMarker.destinationIcon;
+  }
+
+  public getRegularIcon(): L.Icon {
+    return LocationMarker.regularIcon;
   }
 }

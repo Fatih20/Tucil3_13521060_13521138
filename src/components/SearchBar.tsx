@@ -1,11 +1,22 @@
 import { useState } from "react";
-import { LocationAndRouteContext, useLocationAndRouteContext } from "./AppCore";
+import {
+  LocationAndRouteContext,
+  useLocationAndRouteContext,
+  useSolutionContext,
+} from "./AppCore";
 import Image from "next/image";
 
 export default function SearchBar() {
   const { locationMarkers, getMarkerAt } = useLocationAndRouteContext();
-  const [sourceNodeIndex, setSourceNodeIndex] = useState(0);
-  const [destinationNodeIndex, setDestinationNodeIndex] = useState(0);
+  const {
+    setSourceMarkerIndex,
+    setDestinationMarkerIndex,
+    sourceMarkerIndex,
+    destinationMarkerIndex,
+    isSourceAndDestinationSame,
+  } = useSolutionContext();
+  // const [sourceNodeIndex, setSourceNodeIndex] = useState(0);
+  // const [destinationNodeIndex, setDestinationNodeIndex] = useState(0);
   const [firstToSecond, setFirstToSecond] = useState(true);
   const [searchMethod, setSearchMethod] = useState("ucs");
   function handleSubmit() {}
@@ -23,8 +34,8 @@ export default function SearchBar() {
       <div className="flex flex-row items-center justify-center gap-2">
         <select
           className="select select-bordered w-fit select-sm"
-          value={sourceNodeIndex}
-          onChange={(e) => setSourceNodeIndex(Number(e.target.value))}
+          value={sourceMarkerIndex ?? 0}
+          onChange={(e) => setSourceMarkerIndex(Number(e.target.value))}
         >
           {locationMarkers.map((_, index) => {
             return (
@@ -50,8 +61,8 @@ export default function SearchBar() {
           />
         </button>
         <select
-          value={destinationNodeIndex}
-          onChange={(e) => setDestinationNodeIndex(Number(e.target.value))}
+          value={destinationMarkerIndex ?? 0}
+          onChange={(e) => setDestinationMarkerIndex(Number(e.target.value))}
           className="select select-bordered w-fit select-sm"
         >
           {locationMarkers.map((_, index) => {
@@ -66,10 +77,10 @@ export default function SearchBar() {
       <div className="flex flex-grow flex-col items-center justify-center w-full">
         <button
           className={`btn btn-sm w-full ${
-            sourceNodeIndex === destinationNodeIndex ? "btn-disabled" : ""
+            isSourceAndDestinationSame() ? "btn-disabled" : ""
           }`}
           type="submit"
-          disabled={sourceNodeIndex === destinationNodeIndex}
+          disabled={isSourceAndDestinationSame()}
           onClick={(e) => {
             e.preventDefault();
             handleSubmit();

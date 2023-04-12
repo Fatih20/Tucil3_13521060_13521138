@@ -12,6 +12,7 @@ export type UseSolution = {
   search: (arg0: Route[]) => void;
   resetPathSequence: () => void;
   resetSourceAndDest: () => void;
+  isSourceAndDestinationSame: () => boolean;
 };
 
 export function useSolution() {
@@ -43,6 +44,10 @@ export function useSolution() {
     setDestinationMarkerIndex(null);
   }
 
+  function isSourceAndDestinationSame() {
+    return sourceMarkerIndex === destinationMarkerIndex;
+  }
+
   return {
     sourceMarkerIndex,
     setSourceMarkerIndex,
@@ -54,5 +59,6 @@ export function useSolution() {
     search,
     resetPathSequence,
     resetSourceAndDest,
+    isSourceAndDestinationSame,
   };
 }

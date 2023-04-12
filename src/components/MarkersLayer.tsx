@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import {
   LocationAndRouteContext,
   useLocationAndRouteContext,
+  useSolutionContext,
 } from "@/components/AppCore";
 import { useEffect } from "react";
 import { LocationMarker } from "@/types";
@@ -15,6 +16,7 @@ export default function MarkersLayer({}: {}) {
     removeLocationMarker,
     removeRouteWithNodeIndex,
   } = useLocationAndRouteContext();
+  const { isDestinationIndex, isSourceIndex } = useSolutionContext();
   const mapEvent = useMapEvents({
     click({ latlng }) {
       addLocationMarker(
@@ -35,16 +37,23 @@ export default function MarkersLayer({}: {}) {
     }
   }, [locationMarkers, map]);
 
-  const customIcon = new L.Icon({
-    iconUrl: "/locationIcon.svg",
-    iconSize: [32, 40],
-  });
+  const iconMaker = (marker: LocationMarker, index: number) => {
+    if (isDestinationIndex(index)) {
+      return marker.getDestinationIcon();
+    }
+    if (isSourceIndex(index)) {
+      return marker.getSourceIcon();
+    }
+
+    return marker.getRegularIcon();
+  };
+
   return (
     <>
       {locationMarkers.map((marker, index) => {
         return (
           <Marker
-            icon={customIcon}
+            icon={iconMaker(marker, index)}
             position={new LatLng(marker.lat, marker.lng)}
             key={`${marker.lat} ${marker.lng}`}
           >
