@@ -12,14 +12,17 @@ export default function SearchBar() {
 
   return (
     <form
-      className={`flex flex-row items-center justify-center w-fit gap-2 ${
-        locationMarkers.length === 0 ? "hidden" : ""
+      className={`flex flex-col items-center justify-center w-fit gap-2 ${
+        locationMarkers.length <= 1 ? "hidden" : ""
       }`}
       onSubmit={(e) => handleSubmit}
     >
+      <h2 className="text-lg font-bold text-black text-center self-center">
+        Search For A Path
+      </h2>
       <div className="flex flex-row items-center justify-center gap-2">
         <select
-          className="select select-bordered w-fit"
+          className="select select-bordered w-fit select-sm"
           value={sourceNodeIndex}
           onChange={(e) => setSourceNodeIndex(Number(e.target.value))}
         >
@@ -49,7 +52,7 @@ export default function SearchBar() {
         <select
           value={destinationNodeIndex}
           onChange={(e) => setDestinationNodeIndex(Number(e.target.value))}
-          className="select select-bordered w-fit"
+          className="select select-bordered w-fit select-sm"
         >
           {locationMarkers.map((_, index) => {
             return (
@@ -60,9 +63,9 @@ export default function SearchBar() {
           })}
         </select>
       </div>
-      <div className="flex flex-grow flex-col items-center justify-center">
+      <div className="flex flex-grow flex-col items-center justify-center w-full">
         <button
-          className={`btn btn-sm ${
+          className={`btn btn-sm w-full ${
             sourceNodeIndex === destinationNodeIndex ? "btn-disabled" : ""
           }`}
           type="submit"
@@ -74,14 +77,14 @@ export default function SearchBar() {
         >
           Search
         </button>
-        <div className="flex flex-col items-end justify-center">
+        <div className="flex flex-row items-end justify-center">
           <label className="label cursor-pointer text-black flex flex-row items-center justify-center gap-2">
             UCS
             <input
               type="radio"
               name="topping"
               value={"ucs"}
-              className="radio"
+              className="radio radio-sm"
               checked={searchMethod === "ucs"}
               onChange={(e) => setSearchMethod(e.target.value)}
             />
@@ -92,7 +95,7 @@ export default function SearchBar() {
               type="radio"
               name="topping"
               value={"a*"}
-              className="radio"
+              className="radio radio-sm"
               checked={searchMethod === "a*"}
               onChange={(e) => setSearchMethod(e.target.value)}
             />
