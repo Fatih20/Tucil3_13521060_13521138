@@ -16,12 +16,14 @@ export default function MarkersLayer({}: {}) {
     removeLocationMarker,
     removeRouteWithNodeIndex,
   } = useLocationAndRouteContext();
+  const { resetPathSequence } = useSolutionContext();
   const { isDestinationIndex, isSourceIndex } = useSolutionContext();
   const mapEvent = useMapEvents({
     click({ latlng }) {
       addLocationMarker(
         new LocationMarker(latlng, locationMarkers.length.toString())
       );
+      resetPathSequence();
     },
   });
 

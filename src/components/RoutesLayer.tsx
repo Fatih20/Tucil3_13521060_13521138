@@ -1,11 +1,10 @@
-import { Marker, Polyline, Popup, useMapEvents } from "react-leaflet";
+import { Polyline, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import {
-  LocationAndRouteContext,
   useLocationAndRouteContext,
   useSolutionContext,
 } from "@/components/AppCore";
-import { Route } from "@/types";
+import { useEffect } from "react";
 
 export default function RoutesLayer({}: {}) {
   const { getMarkerAt, routes, removeRoute } = useLocationAndRouteContext();
