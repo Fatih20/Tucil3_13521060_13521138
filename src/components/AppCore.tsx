@@ -6,7 +6,7 @@ import {
 } from "@/customHook/useLocationAndRoute";
 import useWindowDimensions from "@/customHook/useWindowDimension";
 import dynamic from "next/dynamic";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import NewPathForm from "@/components/NewPathForm";
 import FileInput from "@/components/FileInput";
 import SearchBar from "./SearchBar";
@@ -32,10 +32,14 @@ export default function AppCore() {
   const solutionHook = useSolution();
   const { width, height } = useWindowDimensions();
 
-  const MapComponent = dynamic(() => import("@/components/MapComponent"), {
-    ssr: false,
-    loading: () => <p>Loading the map</p>,
-  });
+  const MapComponent = useMemo(
+    () =>
+      dynamic(() => import("@/components/MapComponent"), {
+        ssr: false,
+        loading: () => <p>Loading the map</p>,
+      }),
+    []
+  );
 
   return (
     <>

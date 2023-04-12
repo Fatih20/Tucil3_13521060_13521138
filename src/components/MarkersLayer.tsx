@@ -27,18 +27,6 @@ export default function MarkersLayer({}: {}) {
     },
   });
 
-  const map = useMap();
-
-  useEffect(() => {
-    if (locationMarkers.length > 1) {
-      map.fitBounds(
-        locationMarkers.map((lm) => {
-          return [lm.lat, lm.lng];
-        })
-      );
-    }
-  }, [locationMarkers, map]);
-
   const iconMaker = (marker: LocationMarker, index: number) => {
     if (isDestinationIndex(index)) {
       return marker.getDestinationIcon();
