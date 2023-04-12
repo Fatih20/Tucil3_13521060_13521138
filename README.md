@@ -2,7 +2,13 @@
 
 ## Deskripsi Program
 
-Program ini merupakan pencari rute terpendek dalam sebuah _directed graph_ (walaupun spek hanya meminta _undirected graph_, _thank you so much_ sheet QnA). Program ini menggunakan algoritma Uniform Cost Search (UCS) dan A\* untuk menyelesaikan permasalahan tersebut. Program ini dibuat untuk memenuhi tugas kecil 3 mata kuliah IF2211 Strategi Algoritma.
+Program ini merupakan pencari rute terpendek dalam sebuah _directed graph_ (walaupun spek hanya meminta _undirected graph_, _thank you so much_ sheet QnA :blush:). Program ini menggunakan algoritma Uniform Cost Search (UCS) dan A\* untuk menyelesaikan permasalahan tersebut. Program ini dibuat untuk memenuhi tugas kecil 3 mata kuliah IF2211 Strategi Algoritma.
+
+## _Tech Stack_
+
+`TypeScript`
+`next.js`
+`react-leaflet`
 
 ## Cara Penggunaan Program
 
